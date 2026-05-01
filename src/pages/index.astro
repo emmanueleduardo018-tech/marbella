@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Gallery from '../components/Gallery.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<Layout title="Marbella Princess Parties — Eventos Mágicos en Tijuana">
+  <Hero />
+  <Services />
+  <About />
+  <Gallery />
+  <Testimonials />
+  <Contact />
+</Layout>
+
+<script>
+  // Scroll reveal para elementos con clase .reveal
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        // Agrega stagger por índice si existe data-i
+        const el = e.target as HTMLElement;
+        const idx = parseInt(el.dataset.i || '0');
+        (el as HTMLElement).style.transitionDelay = `${Math.min(idx * 0.07, 0.5)}s`;
+        io.unobserve(e.target);
+      }
+    }),
+    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>

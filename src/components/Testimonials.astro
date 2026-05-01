@@ -1,0 +1,191 @@
+---
+const reviews = [
+  {
+    nombre: 'Mariana & Carlos',
+    evento:  'Boda — Diciembre 2024',
+    texto:   'Quedé sin palabras. La decoración era exactamente lo que soñé, la coordinación fue impecable y el espejo mágico fue la sensación de la noche. Gracias infinitas por hacer nuestro día tan especial.',
+    ini: 'M',
+  },
+  {
+    nombre: 'Sofía Rodríguez',
+    evento:  'XV Años — Octubre 2024',
+    texto:   'Mi princesa quedó encantada. Desde la mesa de postres hasta la cabina 360°, todo fue perfecto. Mis invitados no paraban de decir que fue el mejor evento al que habían asistido.',
+    ini: 'S',
+  },
+  {
+    nombre: 'Familia Gutiérrez',
+    evento:  'Bautizo — Agosto 2024',
+    texto:   'Organizaron el bautizo de nuestra Emma de manera increíble. Detallistas, puntuales y súper cariñosas. El snack bar y la decoración quedaron hermosos. ¡Los recomendamos al 100%!',
+    ini: 'G',
+  },
+  {
+    nombre: 'Daniela Vega',
+    evento:  'Graduación — Julio 2024',
+    texto:   'El evento de nuestra generación fue un éxito gracias a Marbella Princess Parties. Todo perfecto, desde el montaje hasta el último detalle. La cabina de fotos fue demasiado divertida.',
+    ini: 'D',
+  },
+];
+---
+
+<section class="reviews">
+  <div class="container">
+    <div class="sec-header">
+      <span class="eyebrow">Lo que dicen</span>
+      <h2 class="sec-titulo">Familias <em>felices</em> 💕</h2>
+      <div class="sep"><span class="sep-icon">⭐</span></div>
+    </div>
+
+    <div class="reviews-grid">
+      {reviews.map(r => (
+        <article class="review-card reveal">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <blockquote class="review-texto">"{r.texto}"</blockquote>
+          <div class="review-autor">
+            <div class="avatar">{r.ini}</div>
+            <div>
+              <strong class="autor-nombre">{r.nombre}</strong>
+              <span class="autor-evento">{r.evento}</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Banner de confianza -->
+    <div class="confianza">
+      <div class="conf-item">
+        <span class="conf-num">500+</span>
+        <span class="conf-label">Eventos realizados</span>
+      </div>
+      <div class="conf-sep"></div>
+      <div class="conf-item">
+        <span class="conf-num">8+</span>
+        <span class="conf-label">Años de experiencia</span>
+      </div>
+      <div class="conf-sep"></div>
+      <div class="conf-item">
+        <span class="conf-num">100%</span>
+        <span class="conf-label">Clientes satisfechos</span>
+      </div>
+      <div class="conf-sep"></div>
+      <div class="conf-item">
+        <span class="conf-num">8</span>
+        <span class="conf-label">Servicios disponibles</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.reviews {
+  padding: 6rem 0;
+  background: var(--blanco);
+  position: relative;
+}
+.reviews::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rosa-suave), transparent);
+}
+.sec-header { text-align:center; max-width:560px; margin:0 auto 3.5rem; }
+.sec-titulo { font-size: clamp(2rem,4vw,2.8rem); font-weight:600; color:var(--texto); }
+.sec-titulo em { font-style:italic; color:var(--rosa-oscuro); font-weight:400; }
+
+/* Grid */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1.25rem;
+  margin-bottom: 4rem;
+}
+.review-card {
+  background: white;
+  border: 1px solid var(--crema-borde);
+  border-radius: 18px;
+  padding: 2rem;
+  position: relative;
+  transition: var(--transicion);
+}
+.review-card::after {
+  content: '"';
+  position: absolute; top: 1rem; right: 1.5rem;
+  font-family: var(--fuente-titulo);
+  font-size: 5rem; color: var(--rosa-palido);
+  line-height: 1; pointer-events: none;
+}
+.review-card:hover {
+  box-shadow: var(--sombra-rosa);
+  transform: translateY(-3px);
+  border-color: var(--rosa-suave);
+}
+.stars { font-size: 0.85rem; margin-bottom: 1rem; }
+.review-texto {
+  font-family: var(--fuente-titulo);
+  font-size: 0.97rem; font-style: italic; font-weight: 400;
+  color: var(--texto-medio); line-height: 1.8;
+  margin-bottom: 1.5rem; quotes: none;
+}
+.review-autor {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--crema-borde);
+}
+.avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--rosa-suave), var(--rosa));
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem; font-weight: 600;
+  flex-shrink: 0;
+}
+.autor-nombre {
+  display: block;
+  font-family: var(--fuente-titulo);
+  font-size: 0.95rem; font-weight: 600; color: var(--texto);
+}
+.autor-evento {
+  font-size: 0.72rem; color: var(--texto-claro);
+  letter-spacing: 0.05em;
+}
+
+/* Banner */
+.confianza {
+  background: linear-gradient(135deg, var(--rosa-palido), var(--crema));
+  border: 1px solid var(--crema-borde);
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  display: flex; align-items: center;
+  justify-content: space-around; gap: 2rem;
+  flex-wrap: wrap;
+}
+.conf-item {
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center; gap: 0.25rem;
+}
+.conf-num {
+  font-family: var(--fuente-titulo);
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--rosa-oscuro); line-height: 1;
+}
+.conf-label {
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--texto-claro);
+}
+.conf-sep {
+  width: 1px; height: 48px;
+  background: var(--rosa-suave);
+  opacity: 0.6;
+}
+
+/* Reveal */
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.55s ease, transform 0.55s ease; }
+.reveal.in-view { opacity:1; transform:none; }
+
+@media (max-width: 760px) {
+  .reviews-grid { grid-template-columns: 1fr; }
+  .conf-sep { display: none; }
+  .confianza { padding: 2rem 1.5rem; }
+}
+</style>

@@ -1,0 +1,326 @@
+---
+const categorias = [
+  { id:'all',          label:'✨ Todos'         },
+  { id:'bodas',        label:'💍 Bodas'         },
+  { id:'xv',           label:'👑 XV Años'       },
+  { id:'graduaciones', label:'🎓 Graduaciones'  },
+  { id:'bautizos',     label:'🕊️ Bautizos'     },
+  { id:'cumpleanos',   label:'🎂 Cumpleaños'    },
+  { id:'corporativos', label:'🏢 Corporativos'  },
+];
+
+// ── Agrega aquí tus fotos reales ──
+// Pon tus imágenes en /public/images/{categoria}/nombre.jpg
+const fotos = [
+  { src:'/images/bodas/image-04.jpeg',        cat:'bodas',        titulo:'Boda Rosa Jardín',       desc:'Rancho El Paraíso' },
+  { src:'/images/bodas/image-05.jpeg',        cat:'bodas',        titulo:'Mesa de Postres',         desc:'Boda Sofía & Andrés' },
+  { src:'/images/bodas/image-06.jpeg',        cat:'bodas',        titulo:'Decoración Floral',       desc:'Boda Civil' },
+  { src:'/images/xv/image-01.jpeg',            cat:'xv',           titulo:'XV Rosa Gold',            desc:'Valentina, 2024' },
+  { src:'/images/xv/image-02.jpeg',            cat:'xv',           titulo:'Cabina 360°',             desc:'XV Gabriela' },
+  { src:'/images/xv/image-03.jpeg',            cat:'xv',           titulo:'Espejo Mágico',           desc:'XV Isabella' },
+  { src:'/images/xv/image-07.jpeg',            cat:'xv',           titulo:'Espejo Mágico',           desc:'XV Isabella' },
+  { src:'/images/xv/image-08.jpeg',            cat:'xv',           titulo:'Espejo Mágico',           desc:'XV Isabella' }
+
+];
+---
+
+<section class="galeria" id="galeria">
+  <div class="container">
+    <div class="sec-header">
+      <span class="eyebrow">Nuestro trabajo</span>
+      <h2 class="sec-titulo">Galería de <em>eventos</em></h2>
+      <div class="sep"><span class="sep-icon">📸</span></div>
+      <p class="sec-desc">Explora por categoría y déjate inspirar para tu próximo evento.</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filtros" id="filtros">
+      {categorias.map(c => (
+        <button class={`filtro-btn ${c.id==='all'?'activo':''}`} data-filtro={c.id}>
+          {c.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Grid -->
+    <div class="foto-grid" id="foto-grid">
+      {fotos.map((f, i) => (
+        <div class="foto-item reveal" data-cat={f.cat} data-i={i}>
+          <div class="foto-wrap">
+            <div class="foto-img" style={`background-image:url('${f.src}')`}>
+              <div class="foto-placeholder">
+                {f.cat === 'bodas'        ? '💍' :
+                 f.cat === 'xv'           ? '👑' :
+                 f.cat === 'graduaciones' ? '🎓' :
+                 f.cat === 'bautizos'     ? '🕊️' :
+                 f.cat === 'cumpleanos'   ? '🎂' : '✨'}
+              </div>
+            </div>
+            <div class="foto-overlay">
+              <div class="foto-info">
+                <p class="foto-titulo">{f.titulo}</p>
+                <p class="foto-desc">{f.desc}</p>
+              </div>
+              <button class="foto-zoom" aria-label="Ver">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="galeria-cta">
+      <a href="#contacto" class="btn-rosa">¿Quieres un evento así? ✨</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lb-backdrop" id="lb-backdrop"></div>
+  <button class="lb-close" id="lb-close" aria-label="Cerrar">✕</button>
+  <button class="lb-prev"  id="lb-prev"  aria-label="Anterior">‹</button>
+  <button class="lb-next"  id="lb-next"  aria-label="Siguiente">›</button>
+  <div class="lb-content">
+    <img src="" alt="" id="lb-img" />
+    <p class="lb-caption" id="lb-caption"></p>
+  </div>
+</div>
+
+<style>
+.galeria {
+  padding: 6rem 0 5rem;
+  background: var(--crema);
+  position: relative;
+}
+.galeria::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rosa-suave), transparent);
+}
+
+/* Header */
+.sec-header { text-align: center; max-width: 560px; margin: 0 auto 3rem; }
+.sec-titulo { font-size: clamp(2rem,4vw,2.8rem); font-weight:600; color:var(--texto); }
+.sec-titulo em { font-style:italic; color:var(--rosa-oscuro); font-weight:400; }
+.sec-desc { color:var(--texto-claro); font-size:0.95rem; line-height:1.8; margin-top:0.75rem; }
+
+/* Filtros */
+.filtros {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 0.6rem;
+  margin-bottom: 2.5rem;
+}
+.filtro-btn {
+  padding: 0.5rem 1.2rem;
+  background: white;
+  border: 1.5px solid var(--crema-borde);
+  border-radius: 50px;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.8rem; font-weight: 400;
+  color: var(--texto-medio);
+  cursor: pointer;
+  transition: var(--transicion);
+}
+.filtro-btn:hover {
+  border-color: var(--rosa-suave);
+  color: var(--rosa-oscuro);
+}
+.filtro-btn.activo {
+  background: var(--rosa);
+  border-color: var(--rosa);
+  color: white;
+  box-shadow: 0 4px 14px rgba(232,132,154,0.3);
+}
+
+/* Grid */
+.foto-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 1rem;
+}
+.foto-item { transition: opacity 0.4s ease; }
+.foto-item.oculto { display: none; }
+
+.foto-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(61,37,53,0.07);
+}
+.foto-img {
+  width: 100%; height: 100%;
+  background-size: cover; background-position: center;
+  background-color: var(--rosa-palido);
+  transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; align-items: center; justify-content: center;
+}
+.foto-wrap:hover .foto-img { transform: scale(1.07); }
+.foto-placeholder {
+  font-size: 2.5rem; opacity: 0.4;
+  pointer-events: none;
+}
+
+.foto-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(61,37,53,0.75) 0%, transparent 55%);
+  opacity: 0; transition: opacity 0.35s ease;
+  display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 1rem;
+}
+.foto-wrap:hover .foto-overlay { opacity: 1; }
+.foto-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 0.95rem; font-weight: 600; color: white; line-height: 1.2;
+}
+.foto-desc { font-size: 0.72rem; color: rgba(255,255,255,0.75); margin-top: 0.15rem; }
+.foto-zoom {
+  position: absolute; top: 0.75rem; right: 0.75rem;
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 50%;
+  color: white; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.foto-zoom:hover { background: var(--rosa); border-color: var(--rosa); }
+
+.galeria-cta { text-align: center; margin-top: 3rem; }
+
+/* Reveal */
+.reveal { opacity:0; transform:translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.in-view { opacity:1; transform:none; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 500;
+  display: none; align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; animation: aparecer 0.3s ease; }
+.lb-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(30,10,20,0.92);
+  backdrop-filter: blur(12px);
+}
+.lb-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1rem;
+  max-width: 90vw; max-height: 90vh;
+}
+#lb-img {
+  max-width: 80vw; max-height: 80vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+.lb-caption {
+  color: rgba(255,255,255,0.7);
+  font-family: var(--fuente-titulo);
+  font-style: italic; font-size: 1rem;
+}
+.lb-close, .lb-prev, .lb-next {
+  position: fixed;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: white; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+  z-index: 3;
+}
+.lb-close {
+  top: 1.5rem; right: 1.5rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.1rem;
+}
+.lb-prev, .lb-next {
+  top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  font-size: 1.8rem; line-height: 1;
+}
+.lb-prev { left: 1.5rem; }
+.lb-next { right: 1.5rem; }
+.lb-close:hover, .lb-prev:hover, .lb-next:hover {
+  background: var(--rosa);
+  border-color: var(--rosa);
+}
+
+@media (max-width: 900px)  { .foto-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 480px)  { .foto-grid { grid-template-columns: repeat(2,1fr); gap:0.6rem; } }
+</style>
+
+<script>
+  // --- FILTROS ---
+  const btns  = document.querySelectorAll<HTMLButtonElement>('.filtro-btn');
+  const items = document.querySelectorAll<HTMLElement>('.foto-item');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      const f = btn.dataset.filtro!;
+      items.forEach(it => {
+        it.classList.toggle('oculto', f !== 'all' && it.dataset.cat !== f);
+      });
+    });
+  });
+
+  // --- LIGHTBOX ---
+  const lb         = document.getElementById('lightbox')!;
+  const lbImg      = document.getElementById('lb-img') as HTMLImageElement;
+  const lbCaption  = document.getElementById('lb-caption')!;
+  const lbClose    = document.getElementById('lb-close')!;
+  const lbPrev     = document.getElementById('lb-prev')!;
+  const lbNext     = document.getElementById('lb-next')!;
+  const lbBackdrop = document.getElementById('lb-backdrop')!;
+
+  let cur = 0;
+  let visible: HTMLElement[] = [];
+
+  function abrir(idx: number) {
+    visible = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto)'));
+    cur = idx;
+    mostrar();
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrar() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function mostrar() {
+    const el  = visible[cur];
+    if (!el) return;
+    const bg  = (el.querySelector('.foto-img') as HTMLElement).style.backgroundImage;
+    const src = bg.slice(5, -2);
+    const t   = el.querySelector('.foto-titulo')?.textContent ?? '';
+    const d   = el.querySelector('.foto-desc')?.textContent   ?? '';
+    lbImg.src = src;
+    lbCaption.textContent = `${t} — ${d}`;
+  }
+
+  items.forEach((item, i) => {
+    item.querySelector('.foto-wrap')?.addEventListener('click', () => {
+      const visArr = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto)'));
+      abrir(visArr.indexOf(item));
+    });
+  });
+
+  lbClose.addEventListener('click', cerrar);
+  lbBackdrop.addEventListener('click', cerrar);
+  lbPrev.addEventListener('click', () => { cur = (cur - 1 + visible.length) % visible.length; mostrar(); });
+  lbNext.addEventListener('click', () => { cur = (cur + 1) % visible.length; mostrar(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')      cerrar();
+    if (e.key === 'ArrowLeft')   { cur = (cur - 1 + visible.length) % visible.length; mostrar(); }
+    if (e.key === 'ArrowRight')  { cur = (cur + 1) % visible.length; mostrar(); }
+  });
+</script>

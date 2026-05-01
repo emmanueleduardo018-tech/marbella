@@ -1,0 +1,147 @@
+---
+const links = [
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#nosotros', label: 'Nosotros' },
+  { href: '#galeria',  label: 'Galería'   },
+  { href: '#contacto', label: 'Contacto'  },
+];
+---
+
+<header class="nav" id="nav">
+  <div class="nav-inner container">
+
+    <a href="/" class="logo">
+      <span class="logo-corona">🌹</span>
+      <div class="logo-texto">
+        <span class="logo-marbella">Marbella</span>
+        <span class="logo-sub">Princess Parties</span>
+      </div>
+    </a>
+
+    <nav class="links">
+      {links.map(l => <a href={l.href} class="link">{l.label}</a>)}
+    </nav>
+
+    <a href="#contacto" class="btn-rosa nav-cta">Cotizar evento 🎀</a>
+
+    <button class="burger" id="burger" aria-label="Menú">
+      <span/><span/><span/>
+    </button>
+  </div>
+
+  <div class="mobile-panel" id="mobile-panel">
+    {links.map(l => <a href={l.href} class="mobile-link">{l.label}</a>)}
+    <a href="#contacto" class="btn-rosa" style="margin-top:0.5rem;justify-content:center;">Cotizar evento 🎀</a>
+  </div>
+</header>
+
+<style>
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 1.2rem 0;
+  transition: all 0.4s ease;
+}
+.nav.scrolled {
+  background: rgba(255,250,248,0.96);
+  backdrop-filter: blur(16px);
+  padding: 0.75rem 0;
+  box-shadow: 0 2px 20px rgba(232,132,154,0.12);
+  border-bottom: 1px solid var(--crema-borde);
+}
+.nav-inner {
+  display: flex; align-items: center; gap: 1.5rem;
+}
+
+/* Logo */
+.logo { display: flex; align-items: center; gap: 0.6rem; text-decoration:none; }
+.logo-corona { font-size: 1.5rem; animation: flotar 3s ease-in-out infinite; }
+.logo-texto { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-marbella {
+  font-family: var(--fuente-script);
+  font-size: 1.55rem;
+  color: var(--rosa-oscuro);
+}
+.logo-sub {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--texto-claro);
+}
+
+/* Links */
+.links { display: flex; gap: 2rem; margin-left: auto; }
+.link {
+  font-size: 0.82rem; font-weight: 400; letter-spacing: 0.06em;
+  color: var(--texto-medio);
+  position: relative; transition: color 0.3s;
+}
+.link::after {
+  content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1.5px; background: var(--rosa);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.link:hover { color: var(--rosa-oscuro); }
+.link:hover::after { transform: scaleX(1); }
+
+.nav-cta { font-size: 0.78rem; padding: 0.7rem 1.5rem; margin-left: 0.5rem; }
+
+/* Burger */
+.burger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; margin-left: auto;
+}
+.burger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--rosa-oscuro); border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile panel */
+.mobile-panel {
+  display: none;
+  flex-direction: column; align-items: center; gap: 1.25rem;
+  padding: 1.5rem 2rem 2rem;
+  background: rgba(255,250,248,0.98);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--crema-borde);
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+.mobile-panel.open { max-height: 400px; }
+.mobile-link {
+  font-size: 0.9rem; color: var(--texto-medio);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 860px) {
+  .links, .nav-cta { display: none; }
+  .burger { display: flex; }
+  .mobile-panel { display: flex; }
+}
+</style>
+
+<script>
+  const nav = document.getElementById('nav')!;
+  const burger = document.getElementById('burger')!;
+  const panel = document.getElementById('mobile-panel')!;
+
+  window.addEventListener('scroll', () =>
+    nav.classList.toggle('scrolled', window.scrollY > 40)
+  );
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    panel.classList.toggle('open');
+  });
+  panel.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      panel.classList.remove('open');
+    })
+  );
+</script>

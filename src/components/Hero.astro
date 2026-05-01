@@ -1,0 +1,238 @@
+---
+---
+<section class="hero" id="inicio">
+
+  <!-- Fondo decorativo -->
+  <div class="hero-fondo" aria-hidden="true">
+    <div class="fondo-foto" style="background-image:url('/images/hero-bg.jpg')"></div>
+    <div class="fondo-overlay"></div>
+    <!-- Burbujas decorativas -->
+    <div class="burbuja b1"></div>
+    <div class="burbuja b2"></div>
+    <div class="burbuja b3"></div>
+    <!-- Pétalos SVG flotantes -->
+    <svg class="petalo p1" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 5 C35 15 38 35 20 55 C2 35 5 15 20 5Z" fill="#f7c5d0" opacity="0.5"/>
+    </svg>
+    <svg class="petalo p2" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 5 C35 15 38 35 20 55 C2 35 5 15 20 5Z" fill="#e8849a" opacity="0.3"/>
+    </svg>
+    <svg class="petalo p3" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 5 C35 15 38 35 20 55 C2 35 5 15 20 5Z" fill="#f7c5d0" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <div class="container hero-contenido">
+    <div class="hero-texto">
+      <span class="eyebrow fade-up d1">Bienvenida a</span>
+      <h1 class="hero-titulo fade-up d2">
+        Marbella<br/>
+        <em>Princess</em><br/>
+        Parties
+      </h1>
+
+      <div class="sep fade-up d3" style="margin:1.5rem 0">
+        <span class="sep-icon">🌸</span>
+      </div>
+
+      <p class="hero-desc fade-up d3">
+        Transformamos tus momentos más especiales en experiencias mágicas e inolvidables.<br/>
+        Cada detalle, pensado con amor para ti.
+      </p>
+
+      <div class="hero-botones fade-up d4">
+        <a href="#servicios" class="btn-rosa">Ver nuestros servicios ✨</a>
+        <a href="#galeria"  class="btn-outline">Ver galería</a>
+      </div>
+
+      <!-- Mini badges de confianza -->
+      <div class="hero-badges fade-up d5">
+        <span class="badge">🎀 +500 eventos</span>
+        <span class="badge">⭐ 5 estrellas</span>
+        <span class="badge">💖 100% satisfacción</span>
+      </div>
+    </div>
+
+    <!-- Tarjeta flotante de presentación -->
+    <div class="hero-card fade-up d3">
+      <div class="card-foto" style="background-image:url('/images/bodas/image-05.jpeg')">
+        <div class="card-foto-fallback">
+          <span>👑</span>
+        </div>
+      </div>
+      <div class="card-cuerpo">
+        <p class="card-titulo">Tu evento soñado</p>
+        <p class="card-desc">Bodas · XV años · Graduaciones · Bautizos · y más</p>
+        <a href="#contacto" class="card-cta">
+          Cotiza gratis →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ola inferior -->
+  <div class="hero-ola" aria-hidden="true">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C360,90 1080,20 1440,60 L1440,90 L0,90 Z" fill="#fffaf8"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff0f4 0%, #fff8f5 50%, #fce8ed 100%);
+}
+
+/* Fondo */
+.hero-fondo { position: absolute; inset: 0; pointer-events: none; }
+.fondo-foto {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0.08;
+}
+.fondo-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 40%, rgba(247,197,208,0.4), transparent 65%);
+}
+
+/* Burbujas decorativas */
+.burbuja {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(247,197,208,0.6), transparent 70%);
+  animation: flotar 6s ease-in-out infinite;
+}
+.b1 { width: 400px; height: 400px; top: -100px; right: -80px; animation-delay: 0s; }
+.b2 { width: 250px; height: 250px; bottom: 10%; left: -60px; animation-delay: 2s; opacity: 0.5; }
+.b3 { width: 180px; height: 180px; top: 30%; right: 25%; animation-delay: 4s; opacity: 0.35; }
+
+/* Pétalos */
+.petalo {
+  position: absolute;
+  animation: flotar 5s ease-in-out infinite, girar 12s linear infinite;
+}
+.p1 { width: 30px; top: 20%; right: 10%; animation-delay: 1s; }
+.p2 { width: 20px; top: 65%; left: 8%; animation-delay: 2.5s; }
+.p3 { width: 25px; bottom: 25%; right: 35%; animation-delay: 0.5s; }
+
+/* Contenido */
+.hero-contenido {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4rem;
+  padding-top: 7rem;
+  padding-bottom: 6rem;
+}
+
+/* Texto */
+.hero-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(3rem, 7.5vw, 5.5rem);
+  font-weight: 600;
+  color: var(--texto);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0;
+}
+.hero-titulo em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--rosa-oscuro);
+  font-family: var(--fuente-script);
+  font-size: 1.15em;
+  display: block;
+  line-height: 0.9;
+}
+.hero-desc {
+  font-size: 1rem; font-weight: 300;
+  color: var(--texto-medio);
+  line-height: 1.8; margin-bottom: 2rem;
+  max-width: 480px;
+}
+.hero-botones {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.hero-badges {
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+}
+.badge {
+  font-size: 0.75rem; font-weight: 400;
+  color: var(--texto-medio);
+  background: white;
+  border: 1px solid var(--crema-borde);
+  border-radius: 50px;
+  padding: 0.35rem 0.9rem;
+  box-shadow: var(--sombra-suave);
+}
+
+/* Tarjeta flotante */
+.hero-card {
+  width: 280px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(232,132,154,0.2), 0 4px 16px rgba(61,37,53,0.06);
+  overflow: hidden;
+  flex-shrink: 0;
+  animation: flotar 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.card-foto {
+  height: 200px;
+  background-size: cover; background-position: center;
+  background-color: var(--rosa-palido);
+  display: flex; align-items: center; justify-content: center;
+}
+.card-foto-fallback {
+  font-size: 4rem;
+  opacity: 0.5;
+}
+.card-cuerpo { padding: 1.25rem 1.5rem; }
+.card-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--texto); margin-bottom: 0.3rem;
+}
+.card-desc {
+  font-size: 0.78rem; color: var(--texto-claro);
+  line-height: 1.5; margin-bottom: 1rem;
+}
+.card-cta {
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--rosa-oscuro);
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  transition: gap 0.3s;
+}
+.card-cta:hover { gap: 0.6rem; color: var(--rosa-intenso); }
+
+/* Ola */
+.hero-ola {
+  position: absolute; bottom: -1px; left: 0; right: 0;
+  line-height: 0;
+}
+.hero-ola svg { width: 100%; height: 90px; }
+
+@media (max-width: 900px) {
+  .hero-contenido {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2.5rem;
+  }
+  .hero-titulo em { display: inline; }
+  .hero-desc { margin: 0 auto 1.5rem; }
+  .hero-botones, .hero-badges, .sep { justify-content: center; }
+  .hero-card { width: 260px; margin: 0 auto; }
+  .b1 { width: 300px; height: 300px; right: -60px; top: -80px; }
+}
+
+@media (max-width: 480px) {
+  .hero-titulo { font-size: 2.6rem; }
+  .hero-card { display: none; }
+}
+</style>

@@ -1,0 +1,186 @@
+/* ============================================
+   MARBELLA PRINCESS PARTIES — Global Styles
+   Vibe: blanco + rosa pastel, elegante & cálido
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Great+Vibes&display=swap');
+
+:root {
+  /* Paleta */
+  --blanco:        #fffaf8;
+  --blanco-puro:   #ffffff;
+  --rosa-palido:   #fce8ed;
+  --rosa-suave:    #f7c5d0;
+  --rosa:          #e8849a;
+  --rosa-oscuro:   #c95f78;
+  --rosa-intenso:  #d4547a;
+  --dorado:        #d4a96a;
+  --dorado-claro:  #ead5a8;
+  --dorado-dim:    #b8935a;
+  --crema:         #fdf5ee;
+  --crema-borde:   #f0ddd5;
+  --gris-suave:    #f9f4f2;
+  --texto:         #3d2535;
+  --texto-medio:   #7a4f5e;
+  --texto-claro:   #b08090;
+
+  /* Tipografías */
+  --fuente-titulo:  'Playfair Display', Georgia, serif;
+  --fuente-script:  'Great Vibes', cursive;
+  --fuente-cuerpo:  'DM Sans', sans-serif;
+
+  /* Misc */
+  --radio:          8px;
+  --sombra-rosa:    0 8px 40px rgba(232, 132, 154, 0.18);
+  --sombra-suave:   0 4px 24px rgba(61, 37, 53, 0.08);
+  --transicion:     all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --borde:          1px solid var(--crema-borde);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--blanco);
+  color: var(--texto);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--rosa-palido); }
+::-webkit-scrollbar-thumb { background: var(--rosa-suave); border-radius: 10px; }
+::selection { background: var(--rosa-suave); color: var(--texto); }
+
+h1, h2, h3, h4 {
+  font-family: var(--fuente-titulo);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--texto);
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ---- Utilidades ---- */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Eyebrow tipo script */
+.eyebrow {
+  font-family: var(--fuente-script);
+  font-size: 1.6rem;
+  color: var(--rosa-oscuro);
+  display: block;
+  margin-bottom: 0.25rem;
+  line-height: 1;
+}
+
+/* Separador floral */
+.sep {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem auto;
+  width: fit-content;
+}
+.sep::before,
+.sep::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rosa-suave));
+}
+.sep::after { background: linear-gradient(90deg, var(--rosa-suave), transparent); }
+.sep-icon { font-size: 0.9rem; color: var(--rosa); }
+
+/* Botones */
+.btn-rosa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 2.2rem;
+  background: var(--rosa);
+  color: white;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transicion);
+  box-shadow: 0 4px 20px rgba(232, 132, 154, 0.35);
+}
+.btn-rosa:hover {
+  background: var(--rosa-oscuro);
+  box-shadow: 0 6px 28px rgba(201, 95, 120, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 2.2rem;
+  background: transparent;
+  color: var(--rosa-oscuro);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  border: 1.5px solid var(--rosa);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transicion);
+}
+.btn-outline:hover {
+  background: var(--rosa-palido);
+}
+
+/* Animaciones */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes flotar {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes aparecer {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-up { animation: fadeUp 0.75s ease both; }
+.d1 { animation-delay: 0.1s; }
+.d2 { animation-delay: 0.22s; }
+.d3 { animation-delay: 0.34s; }
+.d4 { animation-delay: 0.46s; }
+.d5 { animation-delay: 0.58s; }
+
+/* Fondo con puntos suaves */
+.bg-dots {
+  background-image: radial-gradient(circle, var(--rosa-suave) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.35;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 1.25rem; }
+}
