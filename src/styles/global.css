@@ -93,17 +93,19 @@ img { max-width: 100%; height: auto; display: block; }
   gap: 0.75rem;
   margin: 1.25rem auto;
   width: fit-content;
+  max-width: 100%;
 }
 .sep::before,
 .sep::after {
   content: '';
   display: block;
-  width: 50px;
+  width: clamp(32px, 7vw, 80px);
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--rosa-suave));
+  flex-shrink: 0;
 }
 .sep::after { background: linear-gradient(90deg, var(--rosa-suave), transparent); }
-.sep-icon { font-size: 0.9rem; color: var(--rosa); }
+.sep-icon { font-size: clamp(0.8rem, 2.5vw, 1rem); color: var(--rosa); line-height: 1; }
 
 /* Botones */
 .btn-rosa {

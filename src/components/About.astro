@@ -11,15 +11,24 @@ const valores = [
 
     <!-- Collage de imágenes -->
     <div class="collage">
-      <div class="foto f-grande" style="background-image:url('/images/nosotros-main.jpg')">
-        <div class="foto-fallback">🌸</div>
-      </div>
-      <div class="foto f-chica" style="background-image:url('/images/nosotros-2.jpg')">
-        <div class="foto-fallback">💐</div>
-      </div>
-      <div class="foto f-chica2" style="background-image:url('/images/nosotros-3.jpg')">
-        <div class="foto-fallback">🎀</div>
-      </div>
+      <img
+        src="https://lh3.googleusercontent.com/d/1cVSGuZ9_-P7gQgO5pKMyN2BgjiV-Aczu"
+        alt="Decoración de XV años con flores y detalles elegantes - Marbella Princess Parties"
+        class="foto f-grande"
+        loading="lazy"
+      />
+      <img
+        src="https://lh3.googleusercontent.com/d/1g5fLhbCpItT3BPgENCv1VcL7U7VDRF9J"
+        alt="Detalle de decoración floral para evento XV años en Tijuana"
+        class="foto f-chica"
+        loading="lazy"
+      />
+      <img
+        src="https://lh3.googleusercontent.com/d/1fTLq_7DsyVgs5dF9_bOiRd6byXBov22x"
+        alt="Espejo mágico interactivo para XV años - Marbella Princess Parties Tijuana"
+        class="foto f-chica2"
+        loading="lazy"
+      />
       <!-- Badge años -->
       <div class="badge-anos">
         <span class="badge-num">+8</span>
@@ -85,23 +94,19 @@ const valores = [
 .collage { position: relative; height: 500px; }
 .foto {
   position: absolute;
-  background-size: cover; background-position: center;
   border-radius: 18px;
   overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
   box-shadow: 0 12px 36px rgba(232,132,154,0.15);
   transition: transform 0.4s ease;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
 }
 .foto:hover { transform: scale(1.02); }
-.foto-fallback {
-  font-size: 3.5rem;
-  background: var(--rosa-palido);
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-}
 .f-grande { width: 68%; height: 72%; top: 0; left: 0; z-index: 2; }
-.f-chica  { width: 44%; height: 46%; bottom: 0; right: 0; z-index: 3; }
-.f-chica2 { width: 34%; height: 36%; top: 12%; right: 4%; z-index: 1; opacity: 0.7; }
+.f-chica  { width: 46%; height: 46%; bottom: 0; right: 0; z-index: 3; }
+.f-chica2 { width: 39%; height: 44%; top: 12%; right: 4%; z-index: 1; opacity: 0.7; }
 
 .badge-anos {
   position: absolute; bottom: 16%; left: 52%;
@@ -162,7 +167,6 @@ const valores = [
   .collage { height: 360px; max-width: 420px; margin: 0 auto; }
   .texto { text-align: center; }
   .valores { align-items: flex-start; }
-  .sep { margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 480px) {
   .collage { height: 280px; }

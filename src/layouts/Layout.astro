@@ -4,22 +4,65 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 
 const {
-  title = 'Marbella Princess Parties',
-  description = 'Especialistas en eventos mágicos. Decoración, coordinación, mobiliario, snack bar, mesa de postres, cabina de fotos 360 y espejo mágico.'
+  title = 'Organización de Eventos en Tijuana | Marbella Princess Parties',
+  description = 'Organización de eventos mágicos en Tijuana: XV años, bodas, bautizos y más. +500 eventos, 8 años de experiencia. ¡Cotiza gratis!'
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = 'https://lh3.googleusercontent.com/d/1mnXmWctu3hND1iMCXZanR4fsyxOfS0Fu';
 ---
 <!doctype html>
-<html lang="es">
+<html lang="es-MX">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content={description}/>
   <meta name="theme-color" content="#fce8ed"/>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="canonical" href={canonicalURL}/>
   <title>{title}</title>
+
+  <!-- Open Graph & Social Media -->
   <meta property="og:title" content={title}/>
   <meta property="og:description" content={description}/>
   <meta property="og:type" content="website"/>
+  <meta property="og:url" content={canonicalURL}/>
+  <meta property="og:image" content={ogImage}/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content={title}/>
+  <meta name="twitter:description" content={description}/>
+  <meta name="twitter:image" content={ogImage}/>
+
+  <!-- Schema Markup - LocalBusiness -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Marbella Princess Parties",
+    "description": "Organización de eventos mágicos en Tijuana",
+    "url": "https://marbellaprincessparties.com.mx",
+    "telephone": "+526644771880",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Tijuana",
+      "addressRegion": "BC",
+      "addressCountry": "MX"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "500"
+    },
+    "sameAs": [
+      "https://www.instagram.com/marbellaprincessparties",
+      "https://www.facebook.com/marbellaprincessparties"
+    ]
+  }
+  </script>
 </head>
 <body>
   <Navbar/>

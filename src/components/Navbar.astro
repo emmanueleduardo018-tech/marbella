@@ -11,7 +11,7 @@ const links = [
   <div class="nav-inner container">
 
     <a href="/" class="logo">
-      <span class="logo-corona">🌹</span>
+      <span class="logo-corona"></span>
       <div class="logo-texto">
         <span class="logo-marbella">Marbella</span>
         <span class="logo-sub">Princess Parties</span>
@@ -111,9 +111,16 @@ const links = [
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--crema-borde);
   max-height: 0; overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
+  transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.35s ease;
+  opacity: 0;
+  pointer-events: none;
 }
-.mobile-panel.open { max-height: 400px; }
+.mobile-panel.open { 
+  max-height: 400px;
+  opacity: 1;
+  pointer-events: auto;
+  padding: 1.5rem 2rem 2rem;
+}
 .mobile-link {
   font-size: 0.9rem; color: var(--texto-medio);
   letter-spacing: 0.06em;
@@ -131,6 +138,7 @@ const links = [
   const burger = document.getElementById('burger')!;
   const panel = document.getElementById('mobile-panel')!;
 
+
   window.addEventListener('scroll', () =>
     nav.classList.toggle('scrolled', window.scrollY > 40)
   );
@@ -138,10 +146,11 @@ const links = [
     burger.classList.toggle('open');
     panel.classList.toggle('open');
   });
-  panel.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => {
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.nav-inner') && !target.closest('.mobile-panel')) {
       burger.classList.remove('open');
       panel.classList.remove('open');
-    })
-  );
+    }
+  });
 </script>

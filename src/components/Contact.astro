@@ -9,7 +9,7 @@ const IG     = 'marbellalara87';
   <!-- Banner superior -->
   <div class="contacto-banner">
     <div class="container">
-      <span>🌸 Respondemos en menos de 2 horas · Tu cotización es gratis 🎀</span>
+      <span>🌸 Respondemos en menos de 1 hora · Tu cotización es gratis 🎀</span>
     </div>
   </div>
 
@@ -18,7 +18,7 @@ const IG     = 'marbellalara87';
     <!-- Info izquierda -->
     <div class="info">
       <span class="eyebrow">Hablemos</span>
-      <h2 class="sec-titulo">¿Lista para tu<br/><em>evento soñado?</em></h2>
+      <h2 class="sec-titulo">¿List@ para tu<br/><em>evento soñado?</em></h2>
       <div class="sep" style="margin:1.25rem 0;"><span class="sep-icon">💌</span></div>
       <p class="info-desc">
         Cuéntanos sobre tu evento y te mandamos una propuesta personalizada. Sin compromisos, con todo el cariño del mundo.
@@ -274,7 +274,7 @@ const IG     = 'marbellalara87';
 </style>
 
 <script>
-  const WA = '526641234567'; // ← Mismo número que arriba
+  const WA = '526644771880'; // ← Mismo número que arriba
   document.getElementById('form-cotiza')?.addEventListener('submit', e => {
     e.preventDefault();
     const n  = (document.getElementById('f-nombre') as HTMLInputElement).value;
@@ -284,7 +284,7 @@ const IG     = 'marbellalara87';
     const ms = (document.getElementById('f-msg')    as HTMLTextAreaElement).value;
     const ss = [...document.querySelectorAll<HTMLInputElement>('input[name="servicios"]:checked')]
                  .map(i => i.value).join(', ') || 'No especificado';
-    const txt = `¡Hola! Quiero cotizar un evento 🌸\n\n👤 *Nombre:* ${n}\n📱 *Tel:* ${t}\n🎉 *Evento:* ${ev}\n📅 *Fecha:* ${fe || 'Por definir'}\n✨ *Servicios:* ${ss}\n\n💬 ${ms || 'Sin comentarios adicionales'}`;
+    const txt = `¡Hola! Quiero cotizar un evento\n\n*Nombre:* ${n}\n *Tel:* ${t}\n *Evento:* ${ev}\n *Fecha:* ${fe || 'Por definir'}\n *Servicios:* ${ss}\n\n ${ms || 'Sin comentarios adicionales'}`;
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(txt)}`, '_blank');
   });
 </script>

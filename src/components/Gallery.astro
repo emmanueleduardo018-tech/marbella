@@ -1,4 +1,6 @@
 ---
+import { getGalleryPhotos } from '../lib/drive';
+
 const categorias = [
   { id:'all',          label:'✨ Todos'         },
   { id:'bodas',        label:'💍 Bodas'         },
@@ -9,19 +11,7 @@ const categorias = [
   { id:'corporativos', label:'🏢 Corporativos'  },
 ];
 
-// ── Agrega aquí tus fotos reales ──
-// Pon tus imágenes en /public/images/{categoria}/nombre.jpg
-const fotos = [
-  { src:'/images/bodas/image-04.jpeg',        cat:'bodas',        titulo:'Boda Rosa Jardín',       desc:'Rancho El Paraíso' },
-  { src:'/images/bodas/image-05.jpeg',        cat:'bodas',        titulo:'Mesa de Postres',         desc:'Boda Sofía & Andrés' },
-  { src:'/images/bodas/image-06.jpeg',        cat:'bodas',        titulo:'Decoración Floral',       desc:'Boda Civil' },
-  { src:'/images/xv/image-01.jpeg',            cat:'xv',           titulo:'XV Rosa Gold',            desc:'Valentina, 2024' },
-  { src:'/images/xv/image-02.jpeg',            cat:'xv',           titulo:'Cabina 360°',             desc:'XV Gabriela' },
-  { src:'/images/xv/image-03.jpeg',            cat:'xv',           titulo:'Espejo Mágico',           desc:'XV Isabella' },
-  { src:'/images/xv/image-07.jpeg',            cat:'xv',           titulo:'Espejo Mágico',           desc:'XV Isabella' },
-  { src:'/images/xv/image-08.jpeg',            cat:'xv',           titulo:'Espejo Mágico',           desc:'XV Isabella' }
-
-];
+const fotos = await getGalleryPhotos();
 ---
 
 <section class="galeria" id="galeria">
@@ -47,14 +37,16 @@ const fotos = [
       {fotos.map((f, i) => (
         <div class="foto-item reveal" data-cat={f.cat} data-i={i}>
           <div class="foto-wrap">
-            <div class="foto-img" style={`background-image:url('${f.src}')`}>
-              <div class="foto-placeholder">
-                {f.cat === 'bodas'        ? '💍' :
-                 f.cat === 'xv'           ? '👑' :
-                 f.cat === 'graduaciones' ? '🎓' :
-                 f.cat === 'bautizos'     ? '🕊️' :
-                 f.cat === 'cumpleanos'   ? '🎂' : '✨'}
-              </div>
+            <div class="foto-img">
+              <img
+                src={f.src}
+                alt={`${f.titulo} - ${f.desc} - Marbella Princess Parties Tijuana`}
+                loading={i < 8 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchpriority={i < 4 ? 'high' : 'auto'}
+                class="foto-imagen"
+                onload="this.parentElement.classList.add('cargado')"
+              />
             </div>
             <div class="foto-overlay">
               <div class="foto-info">
@@ -70,6 +62,10 @@ const fotos = [
           </div>
         </div>
       ))}
+    </div>
+
+    <div class="ver-mas-wrap" id="ver-mas-wrap">
+      <button class="ver-mas-btn" id="ver-mas-btn">Ver más fotos</button>
     </div>
 
     <div class="galeria-cta">
@@ -142,8 +138,11 @@ const fotos = [
   grid-template-columns: repeat(4,1fr);
   gap: 1rem;
 }
-.foto-item { transition: opacity 0.4s ease; }
-.foto-item.oculto { display: none; }
+.foto-item {
+  transition: opacity 0.4s ease;
+}
+.foto-item.oculto     { display: none; }
+.foto-item.pag-oculto { display: none; }
 
 .foto-wrap {
   position: relative;
@@ -153,12 +152,27 @@ const fotos = [
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(61,37,53,0.07);
 }
+@keyframes shimmer {
+  from { background-position: -600px 0; }
+  to   { background-position:  600px 0; }
+}
 .foto-img {
   width: 100%; height: 100%;
-  background-size: cover; background-position: center;
-  background-color: var(--rosa-palido);
+  background: linear-gradient(90deg, var(--rosa-palido) 25%, #f5d0da 50%, var(--rosa-palido) 75%);
+  background-size: 1200px 100%;
+  animation: shimmer 1.6s ease infinite;
   transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);
   display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.foto-img.cargado {
+  background: var(--rosa-palido);
+  animation: none;
+}
+.foto-imagen {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .foto-wrap:hover .foto-img { transform: scale(1.07); }
 .foto-placeholder {
@@ -191,6 +205,28 @@ const fotos = [
   transition: background 0.3s;
 }
 .foto-zoom:hover { background: var(--rosa); border-color: var(--rosa); }
+
+.ver-mas-wrap { text-align: center; margin-top: 2rem; }
+.ver-mas-btn {
+  padding: 0.7rem 2rem;
+  background: white;
+  border: 1.5px solid var(--rosa-suave);
+  border-radius: 50px;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--rosa-oscuro);
+  cursor: pointer;
+  transition: var(--transicion);
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.ver-mas-btn:hover {
+  background: var(--rosa);
+  border-color: var(--rosa);
+  color: white;
+  box-shadow: 0 4px 14px rgba(232,132,154,0.3);
+}
+.ver-mas-btn[hidden] { display: none; }
 
 .galeria-cta { text-align: center; margin-top: 3rem; }
 
@@ -257,18 +293,65 @@ const fotos = [
 </style>
 
 <script>
-  // --- FILTROS ---
-  const btns  = document.querySelectorAll<HTMLButtonElement>('.filtro-btn');
-  const items = document.querySelectorAll<HTMLElement>('.foto-item');
+  // --- REVEAL ---
+  const revealObs = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); }
+    }),
+    { threshold: 0.06 }
+  );
+  document.querySelectorAll<HTMLElement>('.reveal').forEach(el => revealObs.observe(el));
 
+  // --- PROGRESSIVE LOADING ---
+  const LOTE = 12;
+  let filtroActivo = 'all';
+  let mostrados = LOTE;
+
+  function todosItems(): HTMLElement[] {
+    return Array.from(document.querySelectorAll<HTMLElement>('.foto-item'));
+  }
+
+  function refreshGrid() {
+    const items = todosItems();
+    items.forEach(item => {
+      const ok = filtroActivo === 'all' || item.dataset.cat === filtroActivo;
+      item.classList.toggle('oculto', !ok);
+      item.classList.remove('pag-oculto');
+    });
+    const visibles = items.filter(item => !item.classList.contains('oculto'));
+    visibles.forEach((item, idx) => {
+      item.classList.toggle('pag-oculto', idx >= mostrados);
+    });
+    const btn = document.getElementById('ver-mas-btn') as HTMLButtonElement | null;
+    if (btn) {
+      const restantes = Math.max(0, visibles.length - mostrados);
+      btn.hidden = restantes <= 0;
+      btn.textContent = `Ver ${Math.min(LOTE, restantes)} fotos más`;
+    }
+  }
+
+  refreshGrid();
+
+  // --- FILTROS ---
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filtro-btn');
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       btns.forEach(b => b.classList.remove('activo'));
       btn.classList.add('activo');
-      const f = btn.dataset.filtro!;
-      items.forEach(it => {
-        it.classList.toggle('oculto', f !== 'all' && it.dataset.cat !== f);
-      });
+      filtroActivo = btn.dataset.filtro!;
+      mostrados = LOTE;
+      refreshGrid();
+    });
+  });
+
+  // --- VER MÁS ---
+  document.getElementById('ver-mas-btn')?.addEventListener('click', () => {
+    mostrados += LOTE;
+    refreshGrid();
+    requestAnimationFrame(() => {
+      todosItems()
+        .filter(el => !el.classList.contains('oculto') && !el.classList.contains('pag-oculto') && !el.classList.contains('in-view'))
+        .forEach(el => el.classList.add('in-view'));
     });
   });
 
@@ -285,7 +368,7 @@ const fotos = [
   let visible: HTMLElement[] = [];
 
   function abrir(idx: number) {
-    visible = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto)'));
+    visible = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto):not(.pag-oculto)'));
     cur = idx;
     mostrar();
     lb.classList.add('open');
@@ -298,17 +381,17 @@ const fotos = [
   function mostrar() {
     const el  = visible[cur];
     if (!el) return;
-    const bg  = (el.querySelector('.foto-img') as HTMLElement).style.backgroundImage;
-    const src = bg.slice(5, -2);
+    const img = el.querySelector('.foto-img img') as HTMLImageElement;
+    const src = img?.src ?? '';
     const t   = el.querySelector('.foto-titulo')?.textContent ?? '';
     const d   = el.querySelector('.foto-desc')?.textContent   ?? '';
     lbImg.src = src;
     lbCaption.textContent = `${t} — ${d}`;
   }
 
-  items.forEach((item, i) => {
+  todosItems().forEach((item) => {
     item.querySelector('.foto-wrap')?.addEventListener('click', () => {
-      const visArr = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto)'));
+      const visArr = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto):not(.pag-oculto)'));
       abrir(visArr.indexOf(item));
     });
   });
