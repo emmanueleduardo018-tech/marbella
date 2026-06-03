@@ -2,13 +2,15 @@
 import { getGalleryPhotos } from '../lib/drive';
 
 const categorias = [
-  { id:'all',          label:'✨ Todos'         },
-  { id:'bodas',        label:'💍 Bodas'         },
-  { id:'xv',           label:'👑 XV Años'       },
-  { id:'graduaciones', label:'🎓 Graduaciones'  },
-  { id:'bautizos',     label:'🕊️ Bautizos'     },
-  { id:'cumpleanos',   label:'🎂 Cumpleaños'    },
-  { id:'corporativos', label:'🏢 Corporativos'  },
+  { id:'all',             label:'✨ Todos'         },
+  { id:'bodas',           label:'💍 Bodas'         },
+  { id:'xv',              label:'👑 XV Años'       },
+  { id:'graduaciones',    label:'🎓 Graduaciones'  },
+  { id:'bautizos',        label:'🕊️ Bautizos'     },
+  { id:'cumpleanos',      label:'🎂 Cumpleaños'    },
+  { id:'corporativos',    label:'🏢 Corporativos'  },
+  { id: 'centrosdemesa',  label: '🌸 Centros de mesa' },
+  { id: 'fiestasinf',     label: '🎉 Fiestas infantiles' },
 ];
 
 const fotos = await getGalleryPhotos();

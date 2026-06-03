@@ -12,6 +12,8 @@ const CATEGORY_MAP: Record<string, { titulo: string; desc: string }> = {
   bautizos:     { titulo: 'Bautizo',     desc: 'Celebración de bautizo' },
   cumpleanos:   { titulo: 'Cumpleaños',  desc: 'Fiestas de cumpleaños' },
   corporativos: { titulo: 'Corporativo', desc: 'Eventos empresariales' },
+  centrosdemesa: { titulo: 'Centros de mesa', desc: 'Decoración para eventos' },
+  fiestasinf: { titulo: 'Fiestas infantiles', desc: 'Celebraciones para niños' },
 };
 
 async function driveList(
