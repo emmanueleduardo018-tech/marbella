@@ -1,15 +1,19 @@
 ---
+import { getGalleryPhotos } from '../lib/drive';
+
 const categorias = [
-  { id:'all',             label:'✨ Todos'             },
-  { id:'bodas',           label:'💍 Bodas'             },
-  { id:'xv',              label:'👑 XV Años'           },
-  { id:'graduaciones',    label:'🎓 Graduaciones'      },
-  { id:'bautizos',        label:'🕊️ Bautizos'         },
-  { id:'cumpleanos',      label:'🎂 Cumpleaños'        },
-  { id:'corporativos',    label:'🏢 Corporativos'      },
-  { id:'centrosdemesa',   label:'🌸 Centros de mesa'   },
-  { id:'fiestasinf',      label:'🎉 Fiestas infantiles'},
+  { id:'all',             label:'✨ Todos'         },
+  { id:'bodas',           label:'💍 Bodas'         },
+  { id:'xv',              label:'👑 XV Años'       },
+  { id:'graduaciones',    label:'🎓 Graduaciones'  },
+  { id:'bautizos',        label:'🕊️ Bautizos'     },
+  { id:'cumpleanos',      label:'🎂 Cumpleaños'    },
+  { id:'corporativos',    label:'🏢 Corporativos'  },
+  { id: 'centrosdemesa',  label: '🌸 Centros de mesa' },
+  { id: 'fiestasinf',     label: '🎉 Fiestas infantiles' },
 ];
+
+const fotos = await getGalleryPhotos();
 ---
 
 <section class="galeria" id="galeria">
@@ -30,8 +34,37 @@ const categorias = [
       ))}
     </div>
 
-    <!-- Grid (poblado por cliente con SWR) -->
-    <div class="foto-grid" id="foto-grid"></div>
+    <!-- Grid -->
+    <div class="foto-grid" id="foto-grid">
+      {fotos.map((f, i) => (
+        <div class="foto-item reveal" data-cat={f.cat} data-i={i}>
+          <div class="foto-wrap">
+            <div class="foto-img">
+              <img
+                src={f.src}
+                alt={`${f.titulo} - ${f.desc} - Marbella Princess Parties Tijuana`}
+                loading={i < 8 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchpriority={i < 4 ? 'high' : 'auto'}
+                class="foto-imagen"
+                onload="this.parentElement.classList.add('cargado')"
+              />
+            </div>
+            <div class="foto-overlay">
+              <div class="foto-info">
+                <p class="foto-titulo">{f.titulo}</p>
+                <p class="foto-desc">{f.desc}</p>
+              </div>
+              <button class="foto-zoom" aria-label="Ver">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
 
     <div class="ver-mas-wrap" id="ver-mas-wrap">
       <button class="ver-mas-btn" id="ver-mas-btn">Ver más fotos</button>
@@ -262,195 +295,58 @@ const categorias = [
 </style>
 
 <script>
-  // ── Config (reemplazados por Astro en build) ──────────────────────────────
-  const API_KEY  = import.meta.env.PUBLIC_GOOGLE_DRIVE_API_KEY  as string;
-  const ROOT_ID  = import.meta.env.PUBLIC_GOOGLE_DRIVE_ROOT_FOLDER_ID as string;
-  const CACHE_KEY = 'marbella_galeria_v2';
-  const TTL       = 30 * 60 * 1000; // 30 minutos
-
-  const CAT_META: Record<string, { titulo: string; desc: string }> = {
-    bodas:         { titulo: 'Boda',               desc: 'Ceremonias y recepciones'   },
-    xv:            { titulo: 'XV Años',            desc: 'Quinceañeras'               },
-    graduaciones:  { titulo: 'Graduación',         desc: 'Celebración de logros'      },
-    bautizos:      { titulo: 'Bautizo',            desc: 'Celebración de bautizo'     },
-    cumpleanos:    { titulo: 'Cumpleaños',         desc: 'Fiestas de cumpleaños'      },
-    corporativos:  { titulo: 'Corporativo',        desc: 'Eventos empresariales'      },
-    centrosdemesa: { titulo: 'Centros de mesa',    desc: 'Decoración para eventos'    },
-    fiestasinf:    { titulo: 'Fiestas infantiles', desc: 'Celebraciones para niños'   },
-  };
-
-  interface Foto { src: string; cat: string; titulo: string; desc: string; }
-
-  // ── Cache localStorage ────────────────────────────────────────────────────
-  function cacheGet(): Foto[] | null {
-    try {
-      const raw = localStorage.getItem(CACHE_KEY);
-      if (!raw) return null;
-      const { ts, fotos } = JSON.parse(raw) as { ts: number; fotos: Foto[] };
-      return Date.now() - ts < TTL ? fotos : null;
-    } catch { return null; }
-  }
-  function cacheSet(fotos: Foto[]) {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), fotos })); } catch {}
-  }
-
-  // ── Drive API cliente ─────────────────────────────────────────────────────
-  function normCat(name: string) {
-    return name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '');
-  }
-  async function driveList(q: string, fields: string, token?: string): Promise<any[]> {
-    const u = new URL('https://www.googleapis.com/drive/v3/files');
-    u.searchParams.set('q', q);
-    u.searchParams.set('fields', `files(${fields}),nextPageToken`);
-    u.searchParams.set('key', API_KEY);
-    u.searchParams.set('pageSize', '100');
-    if (token) u.searchParams.set('pageToken', token);
-    const j = await fetch(u.toString()).then(r => r.json());
-    const items: any[] = j.files ?? [];
-    return j.nextPageToken ? [...items, ...await driveList(q, fields, j.nextPageToken)] : items;
-  }
-  async function fetchFotos(): Promise<Foto[]> {
-    const folders = await driveList(
-      `'${ROOT_ID}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
-      'id,name'
-    );
-    const result: Foto[] = [];
-    await Promise.all(folders.map(async folder => {
-      const cat  = normCat(folder.name);
-      const meta = CAT_META[cat];
-      if (!meta) return;
-      const files = await driveList(
-        `'${folder.id}' in parents and mimeType contains 'image/' and trashed=false`,
-        'id,name'
-      );
-      for (const f of files)
-        result.push({ src: `https://lh3.googleusercontent.com/d/${f.id}`, cat, titulo: meta.titulo, desc: meta.desc });
-    }));
-    return result;
-  }
-
-  // ── Render ────────────────────────────────────────────────────────────────
-  const LOTE = 12;
-  let filtroActivo = 'all';
-  let mostrados    = LOTE;
-  const grid = document.getElementById('foto-grid')!;
-
+  // --- REVEAL ---
   const revealObs = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); } }),
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); }
+    }),
     { threshold: 0.06 }
   );
+  document.querySelectorAll<HTMLElement>('.reveal').forEach(el => revealObs.observe(el));
+
+  // --- PROGRESSIVE LOADING ---
+  const LOTE = 12;
+  let filtroActivo = 'all';
+  let mostrados = LOTE;
 
   function todosItems(): HTMLElement[] {
     return Array.from(document.querySelectorAll<HTMLElement>('.foto-item'));
   }
+
   function refreshGrid() {
     const items = todosItems();
     items.forEach(item => {
-      item.classList.toggle('oculto', filtroActivo !== 'all' && item.dataset.cat !== filtroActivo);
+      const ok = filtroActivo === 'all' || item.dataset.cat === filtroActivo;
+      item.classList.toggle('oculto', !ok);
       item.classList.remove('pag-oculto');
     });
-    const visibles = items.filter(i => !i.classList.contains('oculto'));
-    visibles.forEach((item, idx) => item.classList.toggle('pag-oculto', idx >= mostrados));
+    const visibles = items.filter(item => !item.classList.contains('oculto'));
+    visibles.forEach((item, idx) => {
+      item.classList.toggle('pag-oculto', idx >= mostrados);
+    });
     const btn = document.getElementById('ver-mas-btn') as HTMLButtonElement | null;
     if (btn) {
-      const rest = Math.max(0, visibles.length - mostrados);
-      btn.hidden = rest <= 0;
-      btn.textContent = `Ver ${Math.min(LOTE, rest)} fotos más`;
+      const restantes = Math.max(0, visibles.length - mostrados);
+      btn.hidden = restantes <= 0;
+      btn.textContent = `Ver ${Math.min(LOTE, restantes)} fotos más`;
     }
   }
 
-  function crearItem(f: Foto, i: number): HTMLElement {
-    const div  = document.createElement('div');
-    div.className   = 'foto-item reveal';
-    div.dataset.cat = f.cat;
-    div.dataset.i   = String(i);
+  refreshGrid();
 
-    const wrap    = document.createElement('div');
-    wrap.className = 'foto-wrap';
-
-    const fotoImg    = document.createElement('div');
-    fotoImg.className = 'foto-img';
-    const img = document.createElement('img');
-    img.src       = f.src;
-    img.alt       = `${f.titulo} - ${f.desc} - Marbella Princess Parties Tijuana`;
-    img.className = 'foto-imagen';
-    img.loading   = i < 8 ? 'eager' : 'lazy';
-    img.decoding  = 'async';
-    if (i < 4) img.setAttribute('fetchpriority', 'high');
-    img.addEventListener('load', () => fotoImg.classList.add('cargado'));
-    fotoImg.appendChild(img);
-
-    const overlay    = document.createElement('div');
-    overlay.className = 'foto-overlay';
-    overlay.innerHTML = `
-      <div class="foto-info">
-        <p class="foto-titulo">${f.titulo}</p>
-        <p class="foto-desc">${f.desc}</p>
-      </div>
-      <button class="foto-zoom" aria-label="Ver">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-        </svg>
-      </button>`;
-
-    wrap.appendChild(fotoImg);
-    wrap.appendChild(overlay);
-    wrap.addEventListener('click', () => {
-      const vis = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto):not(.pag-oculto)'));
-      abrir(vis.indexOf(div));
-    });
-    div.appendChild(wrap);
-    return div;
-  }
-
-  function showSkeleton() {
-    grid.innerHTML = Array(8).fill(0).map(() =>
-      `<div class="foto-item foto-skeleton"><div class="foto-wrap"><div class="foto-img"></div></div></div>`
-    ).join('');
-  }
-
-  function renderFotos(fotos: Foto[]) {
-    grid.innerHTML = '';
-    fotos.forEach((f, i) => { const item = crearItem(f, i); grid.appendChild(item); revealObs.observe(item); });
-    mostrados    = LOTE;
-    filtroActivo = 'all';
-    document.querySelectorAll<HTMLButtonElement>('.filtro-btn').forEach(b =>
-      b.classList.toggle('activo', b.dataset.filtro === 'all')
-    );
-    refreshGrid();
-  }
-
-  // ── Init SWR ──────────────────────────────────────────────────────────────
-  async function init() {
-    const cached = cacheGet();
-    if (cached) {
-      renderFotos(cached);
-      fetchFotos().then(fresh => cacheSet(fresh)).catch(() => {});
-      return;
-    }
-    showSkeleton();
-    try {
-      const fotos = await fetchFotos();
-      cacheSet(fotos);
-      renderFotos(fotos);
-    } catch {
-      grid.innerHTML = '<p style="text-align:center;color:var(--texto-claro);padding:3rem">No se pudieron cargar las fotos.</p>';
-    }
-  }
-  init();
-
-  // ── Filtros ───────────────────────────────────────────────────────────────
-  document.querySelectorAll<HTMLButtonElement>('.filtro-btn').forEach(btn => {
+  // --- FILTROS ---
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filtro-btn');
+  btns.forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll<HTMLButtonElement>('.filtro-btn').forEach(b => b.classList.remove('activo'));
+      btns.forEach(b => b.classList.remove('activo'));
       btn.classList.add('activo');
       filtroActivo = btn.dataset.filtro!;
-      mostrados    = LOTE;
+      mostrados = LOTE;
       refreshGrid();
     });
   });
 
-  // ── Ver más ───────────────────────────────────────────────────────────────
+  // --- VER MÁS ---
   document.getElementById('ver-mas-btn')?.addEventListener('click', () => {
     mostrados += LOTE;
     refreshGrid();
@@ -461,7 +357,7 @@ const categorias = [
     });
   });
 
-  // ── Lightbox ──────────────────────────────────────────────────────────────
+  // --- LIGHTBOX ---
   const lb         = document.getElementById('lightbox')!;
   const lbImg      = document.getElementById('lb-img') as HTMLImageElement;
   const lbCaption  = document.getElementById('lb-caption')!;
@@ -480,13 +376,27 @@ const categorias = [
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-  function cerrar() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-  function mostrar() {
-    const el = visible[cur];
-    if (!el) return;
-    lbImg.src = (el.querySelector('.foto-img img') as HTMLImageElement)?.src ?? '';
-    lbCaption.textContent = `${el.querySelector('.foto-titulo')?.textContent ?? ''} — ${el.querySelector('.foto-desc')?.textContent ?? ''}`;
+  function cerrar() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
   }
+  function mostrar() {
+    const el  = visible[cur];
+    if (!el) return;
+    const img = el.querySelector('.foto-img img') as HTMLImageElement;
+    const src = img?.src ?? '';
+    const t   = el.querySelector('.foto-titulo')?.textContent ?? '';
+    const d   = el.querySelector('.foto-desc')?.textContent   ?? '';
+    lbImg.src = src;
+    lbCaption.textContent = `${t} — ${d}`;
+  }
+
+  todosItems().forEach((item) => {
+    item.querySelector('.foto-wrap')?.addEventListener('click', () => {
+      const visArr = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto):not(.pag-oculto)'));
+      abrir(visArr.indexOf(item));
+    });
+  });
 
   lbClose.addEventListener('click', cerrar);
   lbBackdrop.addEventListener('click', cerrar);
@@ -494,8 +404,8 @@ const categorias = [
   lbNext.addEventListener('click', () => { cur = (cur + 1) % visible.length; mostrar(); });
   document.addEventListener('keydown', e => {
     if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape')     cerrar();
-    if (e.key === 'ArrowLeft')  { cur = (cur - 1 + visible.length) % visible.length; mostrar(); }
-    if (e.key === 'ArrowRight') { cur = (cur + 1) % visible.length; mostrar(); }
+    if (e.key === 'Escape')      cerrar();
+    if (e.key === 'ArrowLeft')   { cur = (cur - 1 + visible.length) % visible.length; mostrar(); }
+    if (e.key === 'ArrowRight')  { cur = (cur + 1) % visible.length; mostrar(); }
   });
 </script>
