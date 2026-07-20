@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
+import { cldUrl } from '../lib/cloudinary';
 
 const {
   title = 'Organización de Eventos en Tijuana | Marbella Princess Parties',
@@ -9,11 +11,13 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = 'https://lh3.googleusercontent.com/d/1mnXmWctu3hND1iMCXZanR4fsyxOfS0Fu';
+// Imagen social en formato JPG (máxima compatibilidad con scrapers) 1200x630.
+const ogImage = cldUrl('PHOTO-2026-05-22-22-05-46_vhrkpp', 'f_jpg,q_auto,c_fill,g_auto,w_1200,h_630');
 ---
 <!doctype html>
 <html lang="es-MX">
 <head>
+  <GoogleTagManager placement="head"/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content={description}/>
@@ -65,8 +69,13 @@ const ogImage = 'https://lh3.googleusercontent.com/d/1mnXmWctu3hND1iMCXZanR4fsyx
   </script>
 </head>
 <body>
+  <GoogleTagManager placement="body"/>
   <Navbar/>
   <main><slot/></main>
   <Footer/>
+  <script>
+    import { initClickTracking } from '../lib/analytics';
+    initClickTracking();
+  </script>
 </body>
 </html>

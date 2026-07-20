@@ -10,120 +10,261 @@ const links = [
 <header class="nav" id="nav">
   <div class="nav-inner container">
 
-    <a href="/" class="logo">
-      <span class="logo-corona"></span>
+    <a href="/" class="logo" aria-label="Marbella Princess Parties — inicio">
+      <div class="logo-corona" aria-hidden="true">
+        <svg viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="28">
+          <path d="M16 2L20 10L28 6L24 16H8L4 6L12 10L16 2Z" fill="currentColor" opacity="0.9"/>
+          <path d="M6 18H26V22C26 23.1 25.1 24 24 24H8C6.9 24 6 23.1 6 22V18Z" fill="currentColor" opacity="0.7"/>
+          <circle cx="16" cy="10" r="2" fill="white" opacity="0.9"/>
+          <circle cx="8"  cy="8"  r="1.5" fill="white" opacity="0.7"/>
+          <circle cx="24" cy="8"  r="1.5" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
       <div class="logo-texto">
         <span class="logo-marbella">Marbella</span>
         <span class="logo-sub">Princess Parties</span>
       </div>
     </a>
 
-    <nav class="links">
+    <nav class="links" aria-label="Navegación principal">
       {links.map(l => <a href={l.href} class="link">{l.label}</a>)}
     </nav>
 
-    <a href="#contacto" class="btn-rosa nav-cta">Cotizar evento 🎀</a>
+    <a href="#contacto" class="nav-cta" aria-label="Cotizar evento" data-track="cta_click" data-track-location="navbar">
+      <span class="nav-cta-text">Cotizar evento</span>
+      <span class="nav-cta-icon" aria-hidden="true">🎀</span>
+    </a>
 
-    <button class="burger" id="burger" aria-label="Menú">
-      <span/><span/><span/>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
     </button>
   </div>
 
-  <div class="mobile-panel" id="mobile-panel">
+  <div class="mobile-panel" id="mobile-panel" role="navigation" aria-label="Menú móvil">
     {links.map(l => <a href={l.href} class="mobile-link">{l.label}</a>)}
-    <a href="#contacto" class="btn-rosa" style="margin-top:0.5rem;justify-content:center;">Cotizar evento 🎀</a>
+    <a href="#contacto" class="btn-rosa mobile-cta" data-track="cta_click" data-track-location="navbar_mobile">
+      <span>Cotizar evento</span>
+      <span>🎀</span>
+    </a>
   </div>
 </header>
 
 <style>
 .nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  padding: 1.2rem 0;
-  transition: all 0.4s ease;
-}
-.nav.scrolled {
-  background: rgba(255,250,248,0.96);
-  backdrop-filter: blur(16px);
-  padding: 0.75rem 0;
-  box-shadow: 0 2px 20px rgba(232,132,154,0.12);
-  border-bottom: 1px solid var(--crema-borde);
-}
-.nav-inner {
-  display: flex; align-items: center; gap: 1.5rem;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 1.4rem 0;
+  transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Logo */
-.logo { display: flex; align-items: center; gap: 0.6rem; text-decoration:none; }
-.logo-corona { font-size: 1.5rem; animation: flotar 3s ease-in-out infinite; }
-.logo-texto { display: flex; flex-direction: column; line-height: 1.1; }
+.nav.scrolled {
+  background: rgba(255, 250, 248, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 0.85rem 0;
+  box-shadow: 0 1px 0 rgba(240, 221, 213, 0.8), 0 4px 32px rgba(61, 37, 53, 0.08);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* ---- Logo ---- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-corona {
+  color: var(--rosa-oscuro);
+  animation: flotar 4s ease-in-out infinite;
+  display: flex;
+  transition: color 0.3s;
+}
+.nav.scrolled .logo-corona { color: var(--rosa-oscuro); }
+
+/* On transparent nav, corona is light */
+.logo-corona { color: rgba(255,255,255,0.9); }
+.nav.scrolled .logo-corona { color: var(--rosa-oscuro); }
+
+.logo-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
 .logo-marbella {
   font-family: var(--fuente-script);
-  font-size: 1.55rem;
-  color: var(--rosa-oscuro);
+  font-size: 1.65rem;
+  color: rgba(255,255,255,0.95);
+  transition: color 0.4s;
+  line-height: 1.1;
 }
+.nav.scrolled .logo-marbella { color: var(--rosa-oscuro); }
+
 .logo-sub {
   font-family: var(--fuente-cuerpo);
-  font-size: 0.6rem;
+  font-size: 0.56rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--texto-claro);
+  color: rgba(255,255,255,0.65);
+  transition: color 0.4s;
+}
+.nav.scrolled .logo-sub { color: var(--texto-claro); }
+
+/* ---- Nav Links ---- */
+.links {
+  display: flex;
+  gap: 2.2rem;
+  margin-left: auto;
 }
 
-/* Links */
-.links { display: flex; gap: 2rem; margin-left: auto; }
 .link {
-  font-size: 0.82rem; font-weight: 400; letter-spacing: 0.06em;
-  color: var(--texto-medio);
-  position: relative; transition: color 0.3s;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  transition: color 0.3s;
+  padding: 0.25rem 0;
 }
+.nav.scrolled .link { color: var(--texto-medio); }
+
 .link::after {
-  content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
-  height: 1.5px; background: var(--rosa);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.3s ease;
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--rosa), var(--dorado));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.link:hover { color: var(--rosa-oscuro); }
+
+.link:hover { color: rgba(255,255,255,1); }
 .link:hover::after { transform: scaleX(1); }
+.nav.scrolled .link:hover { color: var(--rosa-oscuro); }
 
-.nav-cta { font-size: 0.78rem; padding: 0.7rem 1.5rem; margin-left: 0.5rem; }
+/* ---- CTA Button ---- */
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+.nav-cta:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
 
-/* Burger */
+.nav.scrolled .nav-cta {
+  background: linear-gradient(135deg, var(--rosa) 0%, var(--rosa-oscuro) 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 20px rgba(232, 132, 154, 0.4);
+}
+.nav.scrolled .nav-cta:hover {
+  box-shadow: 0 6px 28px rgba(201, 95, 120, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ---- Burger ---- */
 .burger {
-  display: none; flex-direction: column; gap: 5px;
-  background: none; border: none; cursor: pointer; margin-left: auto;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
 }
+
 .burger span {
-  display: block; width: 22px; height: 1.5px;
-  background: var(--rosa-oscuro); border-radius: 2px;
-  transition: all 0.3s ease;
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 2px;
+  transition: all 0.35s ease;
+  transform-origin: center;
 }
+.nav.scrolled .burger span { background: var(--rosa-oscuro); }
+
 .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* Mobile panel */
+/* ---- Mobile Panel ---- */
 .mobile-panel {
   display: none;
-  flex-direction: column; align-items: center; gap: 1.25rem;
-  padding: 1.5rem 2rem 2rem;
-  background: rgba(255,250,248,0.98);
-  backdrop-filter: blur(16px);
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  background: rgba(255, 250, 248, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--crema-borde);
-  max-height: 0; overflow: hidden;
-  transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.35s ease;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding 0.4s ease,
+              opacity 0.35s ease;
   opacity: 0;
   pointer-events: none;
 }
-.mobile-panel.open { 
-  max-height: 400px;
+.mobile-panel.open {
+  max-height: 500px;
   opacity: 1;
   pointer-events: auto;
-  padding: 1.5rem 2rem 2rem;
+  padding: 2rem 2rem 2.5rem;
 }
+
 .mobile-link {
-  font-size: 0.9rem; color: var(--texto-medio);
-  letter-spacing: 0.06em;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-medio);
+  transition: color 0.3s;
+}
+.mobile-link:hover { color: var(--rosa-oscuro); }
+
+.mobile-cta {
+  margin-top: 0.25rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 240px;
 }
 
 @media (max-width: 860px) {
@@ -131,26 +272,43 @@ const links = [
   .burger { display: flex; }
   .mobile-panel { display: flex; }
 }
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
 </style>
 
 <script>
-  const nav = document.getElementById('nav')!;
+  const nav    = document.getElementById('nav')!;
   const burger = document.getElementById('burger')!;
-  const panel = document.getElementById('mobile-panel')!;
+  const panel  = document.getElementById('mobile-panel')!;
 
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
 
-  window.addEventListener('scroll', () =>
-    nav.classList.toggle('scrolled', window.scrollY > 40)
-  );
   burger.addEventListener('click', () => {
-    burger.classList.toggle('open');
-    panel.classList.toggle('open');
+    const isOpen = burger.classList.toggle('open');
+    panel.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', String(isOpen));
   });
+
   document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest('.nav-inner') && !target.closest('.mobile-panel')) {
+    const t = e.target as HTMLElement;
+    if (!t.closest('.nav-inner') && !t.closest('.mobile-panel')) {
       burger.classList.remove('open');
       panel.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
     }
+  });
+
+  // Close mobile menu on link click
+  panel.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      panel.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
   });
 </script>

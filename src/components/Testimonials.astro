@@ -1,92 +1,224 @@
 ---
+// ─────────────────────────────────────────────────────────────
+//  RESEÑAS — widget estilo Google (contenido fijo, editable aquí)
+//  Sustituye el texto por las reseñas reales de tu perfil de Google.
+//  Para cada reseña: nombre, fecha (texto libre), rating 1-5, texto.
+//  color: "rosa" | "dorado"  ·  foto: URL opcional (si no, usa la inicial)
+// ─────────────────────────────────────────────────────────────
+// Enlace al perfil de Google del negocio (para "Ver todas" / "Escribir reseña")
+const GOOGLE_URL =
+  "https://g.page/r/CePC9UfUQHYcEAE/review";
+
+// Resumen que muestra el widget (pon aquí tus valores reales de Google)
+const resumen = { rating: 5.0, total: 5 };
+
 const reviews = [
   {
-    nombre: "Vicky Flores",
-    evento: "XV Años - Septiembre 2025",
+    nombre: "Marisol García",
+    fecha: "hace un mes",
     texto:
-      "Gracias Marbella por hacer su sueño realidad, eres garantia de un excelente trabajo y lo hermoso que lo haces, siempre estaremos agradecidos contigo y por ser mi apoyo siempre estas ahi.. hay personas que se recomiendan solas y tu eres una de ellas tu trabajo habla por ti, Gracias totales...",
-    ini: "V",
+      "SIMPLEMENTE FANTASTICA, EXCELENTE ATENCION PERSONALIZADA.MUY RECOMENDADA, ES DONDE TUS SUEÑOS SE HACEN REALIDAD.",
+    rating: 5,
+    ini: "M",
+    color: "rosa",
+    foto: "",
   },
   {
-    nombre: "Valeria Cornejo",
-    evento: "Despedida de Soltera — Octubre 2025",
+    nombre: "Saira Padilla",
+    fecha: "hace 18 horas",
     texto:
-      "Super recomendada Marbella!! Supero las expectativas y mas. Todo puntual y fue justo lo que pedi. Excelente comunicacion y todo muy hermoso. Las invitadas no se cansaron de chulear su decoracion toda la noche!",
-    ini: "V",
+      "Siempre la mejor en todos los aspectos, puntualidad, calidad e innovación, todos los invitados quedaron deslumbrados con la decoración, gracias por hacer del bautizo de mi hija el mejor y plasmar mis ideas 🩷",
+    rating: 5,
+    ini: "S",
+    color: "dorado",
+    foto: "",
   },
   {
-    nombre: "Familia Gutiérrez",
-    evento: "Bautizo — Agosto 2024",
+    nombre: "Nancy Gonzalez",
+    fecha: "hace 6 dias",
     texto:
-      "Organizaron el bautizo de nuestra Emma de manera increíble. Detallistas, puntuales y súper cariñosas. El snack bar y la decoración quedaron hermosos. ¡Los recomendamos al 100%!",
-    ini: "G",
+      "Una decoración hermosa que definitivamente elevó mi evento, Super recomendada ❤️ Excelente atención ☺️",
+    rating: 5,
+    ini: "N",
+    color: "dorado",
+    foto: "",
   },
   {
-    nombre: "Daniela Vega",
-    evento: "Graduación — Julio 2024",
+    nombre: "Adilene Vallejo",
+    fecha: "hace 10 meses",
     texto:
-      "El evento de nuestra generación fue un éxito gracias a Marbella Princess Parties. Todo perfecto, desde el montaje hasta el último detalle. La cabina de fotos fue demasiado divertida.",
-    ini: "D",
+      "Sin duda alguna, la mejor decisión. Más que una decoración un sueño hecho realidad. La mejor decoradora, logra captar y crear cada detalle. Nos encantó tanto cada creación que montó en nuestro evento, los XV años de mi princesa, tema de Rapunzel. Le agradecemos mucho su trabajo. Hemos recibido tantos elogios de familia y amigos. Gracias Marbella!!",
+    rating: 5,
+    ini: "A",
+    color: "rosa",
+    foto: "",
   },
 ];
+
+const ratingStr = Number.isInteger(resumen.rating)
+  ? `${resumen.rating}.0`
+  : resumen.rating.toFixed(1);
+
+const stats = [
+  { num: "500+", label: "Eventos realizados" },
+  { num: "8+", label: "Años de experiencia" },
+  { num: "100%", label: "Clientes satisfechos" },
+  { num: "5★", label: "Calificación promedio" },
+];
+
+// SVG del logo "G" de Google (reutilizado en varios lugares)
+const googleG = `<svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg>`;
 ---
 
-<section class="reviews">
+<section class="reviews" id="testimonios">
+  <div class="reviews-deco" aria-hidden="true">
+    <div class="deco-blob"></div>
+  </div>
+
   <div class="container">
-    <div class="sec-header">
+    <div class="sec-header reveal">
       <span class="eyebrow">Lo que dicen</span>
-      <h2 class="sec-titulo">Clientes <em>felices</em> 💕</h2>
-      <div class="sep"><span class="sep-icon">⭐</span></div>
+      <h2 class="sec-titulo">Familias <em>felices</em></h2>
+      <div class="sep"><span class="sep-icon">💕</span></div>
+      <p class="sec-desc">Reseñas reales de nuestros clientes en Google.</p>
     </div>
 
-    <div class="reviews-grid">
-      {
-        reviews.map((r) => (
-          <article class="review-card reveal">
-            <div class="stars">⭐⭐⭐⭐⭐</div>
-            <blockquote class="review-texto">"{r.texto}"</blockquote>
-            <div class="review-autor">
-              <div class="avatar">{r.ini}</div>
-              <div>
-                <strong class="autor-nombre">{r.nombre}</strong>
-                <span class="autor-evento">{r.evento}</span>
+    <!-- Widget: resumen estilo Google -->
+    <div class="g-summary reveal">
+      <div class="g-logo" set:html={googleG} />
+      <div class="g-summary-main">
+        <span class="g-summary-title">Reseñas de Google</span>
+        <div class="g-summary-rating">
+          <strong class="g-rating-num">{ratingStr}</strong>
+          <div
+            class="stars stars-lg"
+            aria-label={`${ratingStr} de 5 estrellas`}
+          >
+            {
+              [1, 2, 3, 4, 5].map((n) => (
+                <svg
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  width="18"
+                  height="18"
+                  class={`star ${n <= Math.round(resumen.rating) ? "" : "star-empty"}`}
+                >
+                  <path d="M8 1l1.76 5.4H15l-4.56 3.3 1.74 5.4L8 12l-4.18 3.1 1.74-5.4L1 6.4h5.24z" />
+                </svg>
+              ))
+            }
+          </div>
+        </div>
+        <span class="g-summary-count">Basado en {resumen.total} reseñas</span>
+      </div>
+      <a
+        class="g-summary-btn"
+        href={GOOGLE_URL}
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
+        Escribir una reseña
+      </a>
+    </div>
+
+    <!-- Carousel con scroll-snap -->
+    <div class="carousel-wrapper">
+      <div class="carousel" id="carousel" role="list">
+        {
+          reviews.map((r) => (
+            <article class="review-card reveal" role="listitem">
+              <div class="card-top">
+                <div class="avatar-wrap">
+                  {r.foto ? (
+                    <img
+                      class="avatar avatar-photo"
+                      src={r.foto}
+                      alt={`Foto de ${r.nombre}`}
+                      width="46"
+                      height="46"
+                      loading="lazy"
+                      referrerpolicy="no-referrer"
+                    />
+                  ) : (
+                    <div class={`avatar avatar-${r.color}`}>{r.ini}</div>
+                  )}
+                  <span
+                    class="avatar-g"
+                    aria-hidden="true"
+                    set:html={googleG}
+                  />
+                </div>
+                <div class="card-ident">
+                  <strong class="autor-nombre">{r.nombre}</strong>
+                  <span class="autor-fecha">{r.fecha}</span>
+                </div>
               </div>
+
+              <div class="stars" aria-label={`${r.rating} de 5 estrellas`}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    width="15"
+                    height="15"
+                    class={`star ${n <= r.rating ? "" : "star-empty"}`}
+                  >
+                    <path d="M8 1l1.76 5.4H15l-4.56 3.3 1.74 5.4L8 12l-4.18 3.1 1.74-5.4L1 6.4h5.24z" />
+                  </svg>
+                ))}
+              </div>
+
+              <blockquote class="review-texto">{r.texto}</blockquote>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- Dots de navegación -->
+      <div
+        class="carousel-dots"
+        role="tablist"
+        aria-label="Navegación del carousel"
+      >
+        {
+          reviews.map((_, i) => (
+            <button
+              class={`dot ${i === 0 ? "active" : ""}`}
+              data-index={i}
+              role="tab"
+              aria-label={`Testimonio ${i + 1}`}
+              aria-selected={i === 0 ? "true" : "false"}
+            />
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Stats banner -->
+    <div class="stats-banner reveal">
+      {
+        stats.map((s, i) => (
+          <>
+            <div class="stat-item">
+              <span class="stat-num">{s.num}</span>
+              <span class="stat-label">{s.label}</span>
             </div>
-          </article>
+            {i < stats.length - 1 && (
+              <div class="stat-sep" aria-hidden="true" />
+            )}
+          </>
         ))
       }
-    </div>
-
-    <!-- Banner de confianza -->
-    <div class="confianza">
-      <div class="conf-item">
-        <span class="conf-num">500+</span>
-        <span class="conf-label">Eventos realizados</span>
-      </div>
-      <div class="conf-sep"></div>
-      <div class="conf-item">
-        <span class="conf-num">8+</span>
-        <span class="conf-label">Años de experiencia</span>
-      </div>
-      <div class="conf-sep"></div>
-      <div class="conf-item">
-        <span class="conf-num">100%</span>
-        <span class="conf-label">Clientes satisfechos</span>
-      </div>
-      <div class="conf-sep"></div>
-      <div class="conf-item">
-        <span class="conf-num">8</span>
-        <span class="conf-label">Servicios disponibles</span>
-      </div>
     </div>
   </div>
 </section>
 
 <style>
   .reviews {
-    padding: 6rem 0;
-    background: var(--blanco);
+    padding: 7rem 0;
+    background: linear-gradient(180deg, var(--crema) 0%, var(--blanco) 100%);
     position: relative;
+    overflow: hidden;
   }
   .reviews::before {
     content: "";
@@ -102,13 +234,35 @@ const reviews = [
       transparent
     );
   }
+
+  /* Deco */
+  .reviews-deco {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .deco-blob {
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(247, 197, 208, 0.12),
+      transparent 65%
+    );
+  }
+
+  /* Header */
   .sec-header {
     text-align: center;
     max-width: 560px;
-    margin: 0 auto 3.5rem;
+    margin: 0 auto 3rem;
   }
   .sec-titulo {
-    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 600;
     color: var(--texto);
   }
@@ -116,149 +270,388 @@ const reviews = [
     font-style: italic;
     color: var(--rosa-oscuro);
     font-weight: 400;
+    font-family: var(--fuente-script);
+    font-size: 1.1em;
+  }
+  .sec-desc {
+    color: var(--texto-claro);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    margin-top: 0.75rem;
   }
 
-  /* Grid */
-  .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 4rem;
-  }
-  .review-card {
+  /* ── Widget: resumen Google ── */
+  .g-summary {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 620px;
+    margin: 0 auto 2.75rem;
+    padding: 1.5rem 2rem;
     background: white;
     border: 1px solid var(--crema-borde);
     border-radius: 18px;
-    padding: 2rem;
-    position: relative;
-    transition: var(--transicion);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    flex-wrap: wrap;
   }
-  .review-card::after {
-    content: '"';
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
+  .g-logo {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .g-summary-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    min-width: 180px;
+  }
+  .g-summary-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--texto);
+  }
+  .g-summary-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .g-rating-num {
     font-family: var(--fuente-titulo);
-    font-size: 5rem;
-    color: var(--rosa-palido);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e7711b; /* naranja "rating" característico de Google */
     line-height: 1;
-    pointer-events: none;
+  }
+  .g-summary-count {
+    font-size: 0.78rem;
+    color: var(--texto-claro);
+  }
+  .g-summary-btn {
+    flex-shrink: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1a73e8; /* azul Google */
+    text-decoration: none;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid rgba(26, 115, 232, 0.35);
+    border-radius: 999px;
+    transition:
+      background 0.25s ease,
+      box-shadow 0.25s ease;
+    white-space: nowrap;
+  }
+  .g-summary-btn:hover {
+    background: rgba(26, 115, 232, 0.06);
+    box-shadow: 0 3px 10px rgba(26, 115, 232, 0.12);
+  }
+
+  /* Carousel */
+  .carousel-wrapper {
+    position: relative;
+    margin-bottom: 4rem;
+  }
+  .carousel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Card */
+  .review-card {
+    background: white;
+    border: 1px solid var(--crema-borde);
+    border-radius: 22px;
+    padding: 1.75rem;
+    position: relative;
+    transition:
+      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.4s ease,
+      border-color 0.4s ease;
+    scroll-snap-align: start;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .review-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--rosa-suave), var(--dorado-claro));
+    opacity: 0;
+    transition: opacity 0.4s;
   }
   .review-card:hover {
+    transform: translateY(-6px);
     box-shadow: var(--sombra-rosa);
-    transform: translateY(-3px);
     border-color: var(--rosa-suave);
   }
-  .stars {
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
+  .review-card:hover::before {
+    opacity: 1;
   }
-  .review-texto {
-    font-family: var(--fuente-titulo);
-    font-size: 0.97rem;
-    font-style: italic;
-    font-weight: 400;
-    color: var(--texto-medio);
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-    quotes: none;
-  }
-  .review-autor {
+
+  .card-top {
     display: flex;
     align-items: center;
     gap: 0.9rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--crema-borde);
+  }
+
+  /* Avatar con insignia de Google */
+  .avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    line-height: 0;
   }
   .avatar {
-    width: 42px;
-    height: 42px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--rosa-suave), var(--rosa));
-    color: white;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--fuente-titulo);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 600;
-    flex-shrink: 0;
+    color: white;
+  }
+  .avatar-rosa {
+    background: linear-gradient(
+      135deg,
+      var(--rosa-suave) 0%,
+      var(--rosa-oscuro) 100%
+    );
+  }
+  .avatar-dorado {
+    background: linear-gradient(
+      135deg,
+      var(--dorado-claro) 0%,
+      var(--dorado-dim) 100%
+    );
+  }
+  .avatar-photo {
+    display: block;
+    object-fit: cover;
+    border: 2px solid var(--crema-borde);
+  }
+  .avatar-g {
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    display: block;
+  }
+
+  .card-ident {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
   }
   .autor-nombre {
-    display: block;
     font-family: var(--fuente-titulo);
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--texto);
   }
-  .autor-evento {
-    font-size: 0.72rem;
+  .autor-fecha {
+    font-size: 0.75rem;
     color: var(--texto-claro);
-    letter-spacing: 0.05em;
   }
 
-  /* Banner */
-  .confianza {
-    background: linear-gradient(135deg, var(--rosa-palido), var(--crema));
-    border: 1px solid var(--crema-borde);
-    border-radius: 20px;
-    padding: 2.5rem 3rem;
+  /* Estrellas */
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+  .stars-lg {
+    gap: 3px;
+  }
+  .star {
+    color: #fbbc04;
+  } /* dorado Google */
+  .star-empty {
+    color: var(--crema-borde);
+  }
+
+  /* Texto */
+  .review-texto {
+    font-size: 0.9rem;
+    color: var(--texto-medio);
+    line-height: 1.75;
+    quotes: none;
+    flex: 1;
+    position: relative;
+    margin: 0;
+  }
+
+  /* Dots */
+  .carousel-dots {
+    display: none;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--crema-borde);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+  .dot.active {
+    background: var(--rosa);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* Stats Banner */
+  .stats-banner {
+    background: linear-gradient(
+      135deg,
+      var(--oscuro) 0%,
+      var(--oscuro-medio) 100%
+    );
+    border-radius: 24px;
+    padding: 3rem 4rem;
     display: flex;
     align-items: center;
     justify-content: space-around;
     gap: 2rem;
     flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
   }
-  .conf-item {
+  .stats-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse at 30% 50%,
+        rgba(232, 132, 154, 0.12),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse at 70% 50%,
+        rgba(212, 169, 106, 0.1),
+        transparent 60%
+      );
+  }
+
+  .stat-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.25rem;
+    gap: 0.3rem;
+    position: relative;
+    z-index: 1;
   }
-  .conf-num {
+  .stat-num {
     font-family: var(--fuente-titulo);
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 4vw, 2.8rem);
     font-weight: 700;
-    color: var(--rosa-oscuro);
+    color: white;
     line-height: 1;
+    background: linear-gradient(135deg, white 0%, var(--dorado-claro) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  .conf-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+  .stat-label {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--texto-claro);
+    color: rgba(255, 255, 255, 0.5);
   }
-  .conf-sep {
+  .stat-sep {
     width: 1px;
-    height: 48px;
-    background: var(--rosa-suave);
-    opacity: 0.6;
-  }
-
-  /* Reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.55s ease,
-      transform 0.55s ease;
-  }
-  .reveal.in-view {
-    opacity: 1;
-    transform: none;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
   }
 
   @media (max-width: 760px) {
-    .reviews-grid {
-      grid-template-columns: 1fr;
+    .g-summary {
+      justify-content: center;
+      text-align: center;
     }
-    .conf-sep {
+    .g-summary-main {
+      align-items: center;
+    }
+    .carousel {
+      grid-template-columns: repeat(4, calc(100% - 2rem));
+      gap: 1rem;
+    }
+    .carousel-dots {
+      display: flex;
+    }
+    .stat-sep {
       display: none;
     }
-    .confianza {
-      padding: 2rem 1.5rem;
+    .stats-banner {
+      padding: 2.5rem 1.75rem;
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-banner {
+      flex-direction: column;
     }
   }
 </style>
+
+<script>
+  const carousel = document.getElementById("carousel");
+  const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
+
+  if (carousel && dots.length) {
+    carousel.addEventListener(
+      "scroll",
+      () => {
+        const index = Math.round(carousel.scrollLeft / carousel.offsetWidth);
+        dots.forEach((d, i) => {
+          const active = i === index;
+          d.classList.toggle("active", active);
+          d.setAttribute("aria-selected", String(active));
+        });
+      },
+      { passive: true },
+    );
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        carousel.scrollTo({
+          left: i * carousel.offsetWidth,
+          behavior: "smooth",
+        });
+      });
+    });
+  }
+</script>

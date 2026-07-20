@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
 import About from '../components/About.astro';
 import Gallery from '../components/Gallery.astro';
+import Videos from '../components/Videos.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Contact from '../components/Contact.astro';
 ---
@@ -13,24 +14,33 @@ import Contact from '../components/Contact.astro';
   <Services />
   <About />
   <Gallery />
+  <Videos />
   <Testimonials />
   <Contact />
 </Layout>
 
 <script>
-  // Scroll reveal para elementos con clase .reveal
+  // Scroll reveal mejorado con stagger y múltiples clases
+  const revealClasses = ['.reveal', '.reveal-scale', '.reveal-left', '.reveal-right'];
+
   const io = new IntersectionObserver(
     entries => entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.classList.add('in-view');
-        // Agrega stagger por índice si existe data-i
         const el = e.target as HTMLElement;
         const idx = parseInt(el.dataset.i || '0');
-        (el as HTMLElement).style.transitionDelay = `${Math.min(idx * 0.07, 0.5)}s`;
-        io.unobserve(e.target);
+        const base = parseFloat(el.style.transitionDelay || '0');
+        if (!el.style.transitionDelay) {
+          el.style.transitionDelay = `${Math.min(idx * 0.07, 0.5)}s`;
+        }
+        // Pequeño retraso para que el delay se aplique antes de la clase
+        requestAnimationFrame(() => {
+          el.classList.add('in-view');
+        });
+        io.unobserve(el);
       }
     }),
-    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
   );
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  document.querySelectorAll(revealClasses.join(', ')).forEach(el => io.observe(el));
 </script>

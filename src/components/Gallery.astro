@@ -1,7 +1,7 @@
 ---
-import { getGalleryPhotos } from '../lib/drive';
+import { getGalleryPhotos } from '../lib/cloudinary';
 
-const categorias = [
+const todasCategorias = [
   { id:'all',             label:'✨ Todos'         },
   { id:'bodas',           label:'💍 Bodas'         },
   { id:'xv',              label:'👑 XV Años'       },
@@ -14,6 +14,10 @@ const categorias = [
 ];
 
 const fotos = await getGalleryPhotos();
+
+// Solo mostramos los filtros de categorías que realmente tienen fotos.
+const catsConFotos = new Set(fotos.map(f => f.cat));
+const categorias = todasCategorias.filter(c => c.id === 'all' || catsConFotos.has(c.id));
 ---
 
 <section class="galeria" id="galeria">
@@ -42,6 +46,11 @@ const fotos = await getGalleryPhotos();
             <div class="foto-img">
               <img
                 src={f.src}
+                srcset={f.srcset}
+                sizes="(max-width: 480px) 50vw, (max-width: 900px) 50vw, 25vw"
+                width="600"
+                height="450"
+                data-full={f.full}
                 alt={`${f.titulo} - ${f.desc} - Marbella Princess Parties Tijuana`}
                 loading={i < 8 ? 'eager' : 'lazy'}
                 decoding="async"
@@ -71,7 +80,7 @@ const fotos = await getGalleryPhotos();
     </div>
 
     <div class="galeria-cta">
-      <a href="#contacto" class="btn-rosa">¿Quieres un evento así? ✨</a>
+      <a href="#contacto" class="btn-rosa" data-track="cta_click" data-track-location="galeria">¿Quieres un evento así? ✨</a>
     </div>
   </div>
 </section>
@@ -295,6 +304,8 @@ const fotos = await getGalleryPhotos();
 </style>
 
 <script>
+  import { trackEvent } from '../lib/analytics';
+
   // --- REVEAL ---
   const revealObs = new IntersectionObserver(
     entries => entries.forEach(e => {
@@ -384,7 +395,7 @@ const fotos = await getGalleryPhotos();
     const el  = visible[cur];
     if (!el) return;
     const img = el.querySelector('.foto-img img') as HTMLImageElement;
-    const src = img?.src ?? '';
+    const src = img?.dataset.full || img?.src || '';
     const t   = el.querySelector('.foto-titulo')?.textContent ?? '';
     const d   = el.querySelector('.foto-desc')?.textContent   ?? '';
     lbImg.src = src;
@@ -394,6 +405,9 @@ const fotos = await getGalleryPhotos();
   todosItems().forEach((item) => {
     item.querySelector('.foto-wrap')?.addEventListener('click', () => {
       const visArr = Array.from(document.querySelectorAll<HTMLElement>('.foto-item:not(.oculto):not(.pag-oculto)'));
+      const img = item.querySelector('.foto-img img') as HTMLImageElement | null;
+      const imageId = (img?.dataset.full || img?.src || '').split('/').pop() ?? '';
+      trackEvent('gallery_image_click', { imageId, category: item.dataset.cat ?? '' });
       abrir(visArr.indexOf(item));
     });
   });

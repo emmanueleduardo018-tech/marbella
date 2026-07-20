@@ -1,206 +1,467 @@
 ---
 const year = new Date().getFullYear();
+const servicios = ['Decoración','Coordinación','Renta de Mobiliario','Snack Bar','Mesa de Postres','Cabina de Fotos','Cabina 360°','Espejo Mágico'];
+const eventos = ['Bodas','XV Años','Graduaciones','Bautizos','Cumpleaños','Corporativos'];
 ---
 
 <footer class="footer">
-  <!-- Ola superior -->
+
+  <!-- Ola decorativa superior -->
   <div class="footer-ola" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,40 C480,80 960,0 1440,40 L1440,80 L0,80 Z" fill="#fce8ed"/>
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,50 C240,90 480,10 720,50 C960,90 1200,10 1440,50 L1440,100 L0,100 Z" fill="#1a0d12"/>
     </svg>
   </div>
 
+  <!-- Cuerpo oscuro -->
   <div class="footer-cuerpo">
-    <div class="container footer-grid">
 
-      <div class="footer-marca">
-        <div class="footer-logo">
-          <span></span>
-          <div>
-            <span class="flogo-nombre">Marbella</span>
-            <span class="flogo-sub">Princess Parties</span>
+    <!-- Patrón decorativo -->
+    <div class="footer-pattern" aria-hidden="true"></div>
+
+    <!-- Brillo superior -->
+    <div class="footer-glow" aria-hidden="true"></div>
+
+    <div class="container">
+
+      <!-- CTA superior del footer -->
+      <div class="footer-cta-top">
+        <div class="footer-cta-texto">
+          <span class="footer-script">¿Lista para crear algo mágico?</span>
+          <p>Cada evento comienza con una conversación. Cuéntanos tu sueño.</p>
+        </div>
+        <a href="#contacto" class="btn-dorado footer-cta-btn" data-track="cta_click" data-track-location="footer_cta">
+          <span>Cotizar mi evento</span>
+          <span>🎀</span>
+        </a>
+      </div>
+
+      <div class="footer-divisor" aria-hidden="true"></div>
+
+      <!-- Grid del footer -->
+      <div class="footer-grid">
+
+        <!-- Marca -->
+        <div class="footer-marca">
+          <div class="footer-logo">
+            <div class="footer-corona" aria-hidden="true">
+              <svg viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="24">
+                <path d="M16 2L20 10L28 6L24 16H8L4 6L12 10L16 2Z" fill="currentColor" opacity="0.85"/>
+                <path d="M6 18H26V22C26 23.1 25.1 24 24 24H8C6.9 24 6 23.1 6 22V18Z" fill="currentColor" opacity="0.6"/>
+                <circle cx="16" cy="10" r="2" fill="white" opacity="0.8"/>
+              </svg>
+            </div>
+            <div>
+              <span class="flogo-nombre">Marbella</span>
+              <span class="flogo-sub">Princess Parties</span>
+            </div>
+          </div>
+          <p class="footer-tagline">
+            Transformamos tus momentos más especiales en recuerdos mágicos que duran para siempre.
+          </p>
+
+          <!-- Social -->
+          <div class="footer-social">
+            <a href="https://instagram.com/marbellalara87" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/526644771880" target="_blank" rel="noopener" class="social-btn social-wa" aria-label="WhatsApp" data-track="whatsapp_click" data-track-location="footer_social">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com/marbellaprincessparties" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Contacto rápido -->
+          <div class="footer-contacto">
+            <a href="tel:+526644771880" class="footer-tel" data-track="phone_click" data-track-location="footer">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+                <path d="M6.6 1.8A15.5 15.5 0 0118.2 13.4l-3 3a1 1 0 01-1.4 0l-2-2a1 1 0 010-1.4l1-1a6.5 6.5 0 00-5.8-5.8l-1 1a1 1 0 01-1.4 0l-2-2a1 1 0 010-1.4l3-3z"/>
+              </svg>
+              664 477 1880
+            </a>
+            <span class="footer-ubicacion">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+                <path d="M10 2a6 6 0 016 6c0 5-6 10-6 10S4 13 4 8a6 6 0 016-6z"/>
+                <circle cx="10" cy="8" r="2"/>
+              </svg>
+              Tijuana, Baja California
+            </span>
           </div>
         </div>
-        <p class="footer-tagline">
-          Transformamos tus momentos más especiales en recuerdos mágicos que duran para siempre. 🌸
-        </p>
-        <div class="footer-social">
-          <a href="https://instagram.com" target="_blank" class="social-btn" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18">
-              <rect x="2" y="2" width="20" height="20" rx="5"/>
-              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-            </svg>
-          </a>
-          <a href="https://wa.me/526644771880" target="_blank" class="social-btn" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-          </a>
-          <a href="https://facebook.com" target="_blank" class="social-btn" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-            </svg>
-          </a>
+
+        <!-- Servicios -->
+        <div class="footer-col">
+          <h4 class="footer-h">Servicios</h4>
+          <ul class="footer-ul">
+            {servicios.map(s => <li><a href="#servicios">{s}</a></li>)}
+          </ul>
+        </div>
+
+        <!-- Eventos -->
+        <div class="footer-col">
+          <h4 class="footer-h">Eventos</h4>
+          <ul class="footer-ul">
+            {eventos.map(e => <li><a href="#galeria">{e}</a></li>)}
+          </ul>
+        </div>
+
+        <!-- Newsletter / CTA columna -->
+        <div class="footer-col">
+          <h4 class="footer-h">¿Tienes un evento?</h4>
+          <p class="footer-col-desc">
+            Escríbenos directamente y te respondemos en menos de 1 hora.
+          </p>
+          <div class="footer-actions">
+            <a href="https://wa.me/526644771880" target="_blank" rel="noopener" class="footer-action-btn wa-btn" data-track="whatsapp_click" data-track-location="footer_action">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              WhatsApp
+            </a>
+            <a href="mailto:marbellalara408@gmail.com" class="footer-action-btn email-btn" data-track="email_click" data-track-location="footer_action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Email
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="footer-col">
-        <h4 class="footer-h">Servicios</h4>
-        <ul class="footer-ul">
-          {['Decoración','Coordinación','Renta de Mobiliario','Snack Bar','Mesa de Postres','Cabina de Fotos','Cabina 360°','Espejo Mágico'].map(s =>
-            <li><a href="#servicios">{s}</a></li>
-          )}
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4 class="footer-h">Eventos</h4>
-        <ul class="footer-ul">
-          {['Bodas','XV Años','Graduaciones','Bautizos','Cumpleaños','Corporativos'].map(e =>
-            <li><a href="#galeria">{e}</a></li>
-          )}
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4 class="footer-h">Contacto</h4>
-        <ul class="footer-ul">
-          <li><a href="https://wa.me/526644771880" target="_blank">664 477 1880</a></li>
-          <li><a href="mailto:marbellalara408@gmail.com">marbellalara408@gmail.com</a></li>
-          <li><span>Tijuana, Baja California</span></li>
-        </ul>
-        <a href="#contacto" class="btn-rosa footer-cta-btn">Cotizar evento 🎀</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="container footer-bottom-inner">
-      <p>© {year} Marbella Princess Parties · Con 💖</p>
-      <div class="footer-legal">
-        <a href="#">Privacidad</a>
-        <span>·</span>
-        <a href="#">Términos</a>
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <p>© {year} Marbella Princess Parties · Tijuana, México · Hecho con 💖</p>
+        <div class="footer-legal">
+          <a href="#">Privacidad</a>
+          <span>·</span>
+          <a href="#">Términos</a>
+        </div>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- Botón flotante WhatsApp -->
-<a href="https://wa.me/526644771880" target="_blank" class="wa-float" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26">
+<!-- Botón flotante WhatsApp con pulso -->
+<a href="https://wa.me/526644771880" target="_blank" rel="noopener" class="wa-float" aria-label="Abrir WhatsApp" data-track="whatsapp_click" data-track-location="float">
+  <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" aria-hidden="true">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
-  <span class="wa-tip">¡Escríbenos! 🌸</span>
+  <span class="wa-tip" aria-hidden="true">¡Escríbenos! 🌸</span>
 </a>
 
 <style>
-.footer { background: #fce8ed; }
-.footer-ola { line-height:0; }
-.footer-ola svg { width:100%; height:80px; display:block; }
+/* Footer base */
+.footer { background: var(--blanco); }
 
-.footer-cuerpo {
-  background: #fce8ed;
-  padding: 3.5rem 0;
+.footer-ola {
+  line-height: 0;
+  background: var(--blanco);
 }
+.footer-ola svg { width: 100%; height: 100px; display: block; }
+
+/* Cuerpo oscuro */
+.footer-cuerpo {
+  background: var(--oscuro);
+  padding: 4rem 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Patrón de puntos */
+.footer-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(247,197,208,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* Glow radial */
+.footer-glow {
+  position: absolute;
+  top: -200px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 500px;
+  background: radial-gradient(ellipse, rgba(232,132,154,0.08), transparent 60%);
+  pointer-events: none;
+}
+
+/* ---- CTA Superior ---- */
+.footer-cta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem 3rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 22px;
+  margin-bottom: 3.5rem;
+  flex-wrap: wrap;
+}
+.footer-cta-texto { flex: 1; min-width: 240px; }
+.footer-script {
+  display: block;
+  font-family: var(--fuente-script);
+  font-size: 2rem;
+  color: var(--rosa-suave);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+.footer-cta-texto p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+.footer-cta-btn {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  padding: 0.85rem 2rem;
+}
+
+/* Divisor */
+.footer-divisor {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin-bottom: 3.5rem;
+}
+
+/* Grid */
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  grid-template-columns: 1.7fr 1fr 1fr 1.2fr;
   gap: 3rem;
+  margin-bottom: 3.5rem;
 }
 
 /* Marca */
 .footer-logo {
-  display: flex; align-items: center; gap: 0.6rem;
-  margin-bottom: 0.9rem; font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+.footer-corona {
+  color: var(--rosa-suave);
+  opacity: 0.8;
 }
 .flogo-nombre {
   display: block;
   font-family: var(--fuente-script);
-  font-size: 1.4rem; color: var(--rosa-oscuro); line-height: 1;
+  font-size: 1.5rem;
+  color: var(--rosa-suave);
+  line-height: 1;
 }
 .flogo-sub {
   display: block;
-  font-size: 0.58rem; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--texto-claro); line-height: 1;
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
 }
 .footer-tagline {
-  font-size: 0.83rem; color: var(--texto-medio);
-  line-height: 1.7; margin-bottom: 1.25rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.42);
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
   max-width: 260px;
 }
-.footer-social { display: flex; gap: 0.5rem; }
-.social-btn {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: white; border: 1.5px solid var(--crema-borde);
-  color: var(--texto-medio);
-  display: flex; align-items: center; justify-content: center;
-  transition: var(--transicion);
+
+/* Social */
+.footer-social {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
-.social-btn:hover { background: var(--rosa); border-color: var(--rosa); color: white; }
+.social-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.social-btn:hover {
+  background: var(--rosa);
+  border-color: var(--rosa);
+  color: white;
+  transform: translateY(-2px);
+}
+.social-wa:hover { background: #25d366; border-color: #25d366; }
+
+/* Contacto rápido */
+.footer-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.footer-tel,
+.footer-ubicacion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  transition: color 0.3s;
+  text-decoration: none;
+}
+.footer-tel:hover { color: var(--rosa-suave); }
 
 /* Columnas */
 .footer-h {
   font-family: var(--fuente-cuerpo);
-  font-size: 0.68rem; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--rosa-oscuro); margin-bottom: 1rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 1.1rem;
 }
-.footer-ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-.footer-ul li a, .footer-ul li span {
-  font-size: 0.83rem; color: var(--texto-medio);
+.footer-ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.footer-ul li a {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.42);
   transition: color 0.3s;
+  text-decoration: none;
 }
-.footer-ul li a:hover { color: var(--rosa-oscuro); }
-.footer-cta-btn { margin-top: 1.25rem; font-size: 0.78rem; padding: 0.7rem 1.25rem; }
+.footer-ul li a:hover { color: rgba(255,255,255,0.8); }
 
-/* Bottom */
+.footer-col-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.footer-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.04);
+}
+.footer-action-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border-color: rgba(255,255,255,0.2);
+}
+.wa-btn:hover { background: rgba(37,211,102,0.12); border-color: rgba(37,211,102,0.3); color: #4ade80; }
+
+/* Bottom bar */
 .footer-bottom {
-  background: rgba(232,132,154,0.15);
-  padding: 1.1rem 0;
-  border-top: 1px solid rgba(232,132,154,0.25);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
-.footer-bottom-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 0.5rem;
+.footer-bottom p {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.25);
 }
-.footer-bottom p { font-size: 0.75rem; color: var(--texto-claro); }
-.footer-legal { display: flex; gap: 0.75rem; align-items: center; }
-.footer-legal a { font-size: 0.75rem; color: var(--texto-claro); }
-.footer-legal a:hover { color: var(--rosa-oscuro); }
-.footer-legal span { color: var(--rosa-suave); }
+.footer-legal {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.footer-legal a {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.25);
+  transition: color 0.3s;
+  text-decoration: none;
+}
+.footer-legal a:hover { color: var(--rosa-suave); }
+.footer-legal span { color: rgba(255,255,255,0.15); }
 
-/* WA float */
+/* ---- WhatsApp Float ---- */
 .wa-float {
-  position: fixed; bottom: 2rem; right: 2rem;
-  width: 58px; height: 58px; border-radius: 50%;
-  background: #25d366; color: white;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 24px rgba(37,211,102,0.4);
-  z-index: 300; transition: all 0.3s ease;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #25d366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+  z-index: 300;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulso-wa 2.5s ease-in-out infinite;
+  text-decoration: none;
 }
-.wa-float:hover { transform: scale(1.12); box-shadow: 0 8px 30px rgba(37,211,102,0.55); }
+.wa-float:hover {
+  transform: scale(1.12);
+  box-shadow: 0 10px 36px rgba(37,211,102,0.6);
+  animation: none;
+}
 .wa-tip {
-  position: absolute; right: 70px;
-  background: white; color: var(--texto);
-  font-size: 0.78rem; font-weight: 500;
-  padding: 0.4rem 0.85rem;
+  position: absolute;
+  right: 72px;
+  background: white;
+  color: var(--texto);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.45rem 0.9rem;
   border-radius: 50px;
-  box-shadow: var(--sombra-suave);
+  box-shadow: 0 4px 20px rgba(61, 37, 53, 0.12);
   border: 1px solid var(--crema-borde);
   white-space: nowrap;
-  opacity: 0; pointer-events: none;
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s;
 }
 .wa-float:hover .wa-tip { opacity: 1; }
 
-@media (max-width: 900px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+@media (max-width: 1000px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .footer-cta-top { padding: 2rem 1.75rem; }
 }
-@media (max-width: 520px) {
+@media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom-inner { flex-direction: column; text-align: center; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .footer-cta-top { flex-direction: column; text-align: center; align-items: center; }
+  .footer-cta-btn { width: 100%; justify-content: center; }
+}
+
+@keyframes pulso-wa {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70%  { box-shadow: 0 0 0 18px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 </style>
